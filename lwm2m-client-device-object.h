@@ -1,6 +1,6 @@
 /**
  * @file
- * LightWeightM2M LWM2M Flow object.
+ * LightWeightM2M LWM2M Flow Access object.
  *
  * @author Imagination Technologies
  *
@@ -33,10 +33,9 @@
  * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef LWM2M_CLIENT_FLOW_OBJECT_H_
-#define LWM2M_CLIENT_FLOW_OBJECT_H_
-#include <awa/static.h>
+#ifndef LIBOBJECTS_LWM2M_CLIENT_DEVICE_OBJECT_H_
+#define LIBOBJECTS_LWM2M_CLIENT_DEVICE_OBJECT_H_
 
-int DefineFlowObject(AwaStaticClient *awaClient);
+int DefineDeviceObject(AwaStaticClient *awaClient);
 
-#endif /* LWM2M_CLIENT_FLOW_OBJECT_H_ */
+#endif /* LIBOBJECTS_LWM2M_CLIENT_DEVICE_OBJECT_H_ */

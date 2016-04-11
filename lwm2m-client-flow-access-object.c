@@ -41,9 +41,9 @@
 #include <stdint.h>
 #include <stdbool.h>
 #include <string.h>
-#include "lwm2m_core.h"
 #include "coap_abstraction.h"
-#include "common.h"
+
+#include <awa/static.h>
 
 /***************************************************************************************************
  * Definitions
@@ -56,281 +56,190 @@
 #define FLOWM2M_FLOW_ACCESS_OBJECT_REMEMBERMETOKEN				3
 #define FLOWM2M_FLOW_ACCESS_OBJECT_REMEMBERMETOKENEXPIRY		4
 
-#define REGISTER_FLOW_ACCESS_OBJECT_RESOURCE(context, name, id, type) \
-	REGISTER_RESOURCE(context, name, FLOWM2M_FLOW_ACCESS_OBJECT, id, type, \
-		MultipleInstancesEnum_Single, MandatoryEnum_Mandatory, Operations_RW, \
-		&flowAccessObjectResourceOperationHandlers)
+#define FLOW_ACCESS_INSTANCES 1
 
-#define CREATE_FLOW_ACCESS_OBJECT_OPTIONAL_RESOURCE(context, objectInstanceId, resourcId) \
-	CREATE_OPTIONAL_RESOURCE(context, FLOWM2M_FLOW_OBJECT, objectInstanceId, resourcId)
-
-/***************************************************************************************************
- * Typedefs
- **************************************************************************************************/
 
 typedef struct
 {
-	char * URL;
-	char * CustomerKey;
-	char * CustomerSecret;
-	char * RememberMeToken;
-	int64_t RememberMeTokenExpiry;
+	char URL[64];
+	char CustomerKey[64];
+	char CustomerSecret[64];
+	char RememberMeToken[64];
+	AwaTime RememberMeTokenExpiry;
 } FlowAccessObject;
 
-/***************************************************************************************************
- * Prototypes
- **************************************************************************************************/
-
-static int FlowAccessObject_ResourceReadHandler(void * context, ObjectIDType objectID,
-	ObjectInstanceIDType objectInstanceID, ResourceIDType resourceID,
-	ResourceInstanceIDType resourceInstanceID, uint8_t * destBuffer, int destBufferLen);
-
-static int FlowAccessObject_ResourceGetLengthHandler(void * context, ObjectIDType objectID,
-	ObjectInstanceIDType objectInstanceID, ResourceIDType resourceID,
-	ResourceInstanceIDType resourceInstanceID);
-
-static int FlowAccessObject_ResourceWriteHandler(void * context, ObjectIDType objectID,
-	ObjectInstanceIDType objectInstanceID, ResourceIDType resourceID,
-	ResourceInstanceIDType resourceInstanceID, uint8_t * srcBuffer, int srcBufferLen,
-	bool * changed);
-
-static int FlowAccessObject_ResourceCreateHandler(void * context, ObjectIDType objectID,
-	ObjectInstanceIDType objectInstanceID, ResourceIDType resourceID);
-
-static int FlowAccessObject_ObjectCreateInstanceHandler(void * context, ObjectIDType objectID,
-	ObjectInstanceIDType objectInstanceID);
-
-static int FlowAccessObject_ObjectDeleteHandler(void * context, ObjectIDType objectID,
-	ObjectInstanceIDType objectInstanceID, ResourceIDType resourceID);
-
-/***************************************************************************************************
- * Globals
- **************************************************************************************************/
-
-FlowAccessObject flowAccessObject;
-
-static ObjectOperationHandlers flowAccessObjectOperationHandlers =
-{
-	.CreateInstance = FlowAccessObject_ObjectCreateInstanceHandler,
-	.Delete = FlowAccessObject_ObjectDeleteHandler,
-};
-
-static ResourceOperationHandlers flowAccessObjectResourceOperationHandlers =
-{
-	.Read = FlowAccessObject_ResourceReadHandler,
-	.GetLength = FlowAccessObject_ResourceGetLengthHandler,
-	.Write = FlowAccessObject_ResourceWriteHandler,
-	.CreateOptionalResource = FlowAccessObject_ResourceCreateHandler,
-	.Execute = NULL,
-};
-
-/***************************************************************************************************
- * Implementation - Private
- **************************************************************************************************/
-
-static int FlowAccessObject_ObjectCreateInstanceHandler(void * context, ObjectIDType objectID,
-	ObjectInstanceIDType objectInstanceID)
-{
-	return 0;
-}
-
-static int FlowAccessObject_ResourceCreateHandler(void * context, ObjectIDType objectID,
-	ObjectInstanceIDType objectInstanceID, ResourceIDType resourceID)
-{
-	return 0;
-}
-
-static int FlowAccessObject_ObjectDeleteHandler(void * context, ObjectIDType objectID,
-	ObjectInstanceIDType objectInstanceID, ResourceIDType resourceID)
-{
-
-	if (objectID != FLOWM2M_FLOW_ACCESS_OBJECT)
-	{
-		Lwm2m_Error("flowAccessObject_ObjectDeleteHandler Invalid OIR: %d/%d/%d\n", objectID,
-			objectInstanceID, resourceID);
-		return -1;
-	}
-
-	if (objectInstanceID == 0)
-	{
-		memset(&flowAccessObject, 0, sizeof(FlowAccessObject));
-
-		if (flowAccessObject.URL)
-			free(flowAccessObject.URL);
-		if (flowAccessObject.CustomerKey)
-			free(flowAccessObject.CustomerKey);
-		if (flowAccessObject.CustomerSecret)
-			free(flowAccessObject.CustomerSecret);
-		if (flowAccessObject.RememberMeToken)
-			free(flowAccessObject.RememberMeToken);
-	}
-	else
-	{
-		Lwm2m_Error("flowAccessObject_ObjectDeleteHandler Invalid instance (not 0): %d",
-			objectInstanceID);
-		return -1;
-	}
-
-	return 0;
-}
-
-static int FlowAccessObject_ResourceReadHandler(void * context, ObjectIDType objectID,
-	ObjectInstanceIDType objectInstanceID, ResourceIDType resourceID,
-	ResourceInstanceIDType resourceInstanceID, uint8_t * destBuffer, int destBufferLen)
-{
-	int result = 0;
-
-	switch (resourceID)
-	{
-		case FLOWM2M_FLOW_ACCESS_OBJECT_URL:
-			memcpy(destBuffer, flowAccessObject.URL, strlen(flowAccessObject.URL) + 1);
-			result = strlen(flowAccessObject.URL) + 1;
-			break;
-		case FLOWM2M_FLOW_ACCESS_OBJECT_CUSTOMERKEY:
-			memcpy(destBuffer, flowAccessObject.CustomerKey,
-				strlen(flowAccessObject.CustomerKey) + 1);
-			result = strlen(flowAccessObject.CustomerKey) + 1;
-			break;
-		case FLOWM2M_FLOW_ACCESS_OBJECT_CUSTOMERSECRET:
-			memcpy(destBuffer, flowAccessObject.CustomerSecret,
-				strlen(flowAccessObject.CustomerSecret) + 1);
-			result = strlen(flowAccessObject.CustomerSecret) + 1;
-			break;
-		case FLOWM2M_FLOW_ACCESS_OBJECT_REMEMBERMETOKEN:
-			memcpy(destBuffer, flowAccessObject.RememberMeToken,
-				strlen(flowAccessObject.RememberMeToken) + 1);
-			result = strlen(flowAccessObject.RememberMeToken) + 1;
-			break;
-		case FLOWM2M_FLOW_ACCESS_OBJECT_REMEMBERMETOKENEXPIRY:
-			memcpy(destBuffer, &flowAccessObject.RememberMeTokenExpiry,
-				sizeof(flowAccessObject.RememberMeTokenExpiry));
-			result = sizeof(flowAccessObject.RememberMeTokenExpiry);
-			break;
-		default:
-			result = -1;
-			break;
-	}
-
-	return result;
-}
-
-static int FlowAccessObject_ResourceGetLengthHandler(void * context, ObjectIDType objectID,
-	ObjectInstanceIDType objectInstanceID, ResourceIDType resourceID,
-	ResourceInstanceIDType resourceInstanceID)
-{
-	int result = 0;
-
-	switch (resourceID)
-	{
-		case FLOWM2M_FLOW_ACCESS_OBJECT_URL:
-			if(flowAccessObject.URL != NULL)
-				result = strlen(flowAccessObject.URL) + 1;
-			break;
-
-		case FLOWM2M_FLOW_ACCESS_OBJECT_CUSTOMERKEY:
-			if(flowAccessObject.CustomerKey != NULL)
-				result = strlen(flowAccessObject.CustomerKey) + 1;
-			break;
-
-		case FLOWM2M_FLOW_ACCESS_OBJECT_CUSTOMERSECRET:
-			if(flowAccessObject.CustomerSecret != NULL)
-				result = strlen(flowAccessObject.CustomerSecret) + 1;
-			break;
-
-		case FLOWM2M_FLOW_ACCESS_OBJECT_REMEMBERMETOKEN:
-			if(flowAccessObject.RememberMeToken != NULL)
-				result = strlen(flowAccessObject.RememberMeToken) + 1;
-			break;
-
-		case FLOWM2M_FLOW_ACCESS_OBJECT_REMEMBERMETOKENEXPIRY:
-			result = sizeof(flowAccessObject.RememberMeTokenExpiry);
-			break;
-
-		default:
-			result = -1;
-			break;
-	}
-
-	return result;
-}
-
-static int FlowAccessObject_ResourceWriteHandler(void * context, ObjectIDType objectID,
-	ObjectInstanceIDType objectInstanceID, ResourceIDType resourceID,
-	ResourceInstanceIDType resourceInstanceID, uint8_t * srcBuffer, int srcBufferLen,
-	bool * changed)
-{
-	int result = 0;
-
-	switch(resourceID)
-	{
-		case FLOWM2M_FLOW_ACCESS_OBJECT_URL:
-			if (flowAccessObject.URL)
-				free(flowAccessObject.URL);
-			flowAccessObject.URL = (char *)malloc(srcBufferLen + 1);
-			memset(flowAccessObject.URL, 0, srcBufferLen + 1);
-			memcpy(flowAccessObject.URL, srcBuffer, srcBufferLen);
-			result = srcBufferLen;
-			break;
-
-		case FLOWM2M_FLOW_ACCESS_OBJECT_CUSTOMERKEY:
-			if (flowAccessObject.CustomerKey)
-				free(flowAccessObject.CustomerKey);
-			flowAccessObject.CustomerKey = (char *)malloc(srcBufferLen + 1);
-			memset(flowAccessObject.CustomerKey, 0, srcBufferLen + 1);
-			memcpy(flowAccessObject.CustomerKey, srcBuffer, srcBufferLen);
-			result = srcBufferLen;
-			break;
-
-		case FLOWM2M_FLOW_ACCESS_OBJECT_CUSTOMERSECRET:
-			if (flowAccessObject.CustomerSecret)
-				free(flowAccessObject.CustomerSecret);
-			flowAccessObject.CustomerSecret = (char *)malloc(srcBufferLen + 1);
-			memset(flowAccessObject.CustomerSecret, 0, srcBufferLen + 1);
-			memcpy(flowAccessObject.CustomerSecret, srcBuffer, srcBufferLen);
-			result = srcBufferLen;
-			break;
-
-		case FLOWM2M_FLOW_ACCESS_OBJECT_REMEMBERMETOKEN:
-			if (flowAccessObject.RememberMeToken)
-				free(flowAccessObject.RememberMeToken);
-			flowAccessObject.RememberMeToken = (char *)malloc(srcBufferLen + 1);
-			memset(flowAccessObject.RememberMeToken, 0, srcBufferLen + 1);
-			memcpy(flowAccessObject.RememberMeToken, srcBuffer, srcBufferLen);
-			result = srcBufferLen;
-			break;
-
-		case FLOWM2M_FLOW_ACCESS_OBJECT_REMEMBERMETOKENEXPIRY:
-			memcpy(&flowAccessObject.RememberMeTokenExpiry, srcBuffer, srcBufferLen);
-			result = srcBufferLen;
-			break;
-
-		default:
-			result = -1;
-			break;
-	}
-
-	return result;
-}
+FlowAccessObject flowAccess[FLOW_ACCESS_INSTANCES];
 
 /***************************************************************************************************
  * Implementation - Public
  **************************************************************************************************/
 
-int Lwm2m_RegisterFlowAccessObject(Lwm2mContextType * context)
+AwaResult accessHandler(AwaStaticClient *client, AwaOperation operation, AwaObjectID objectID, AwaObjectInstanceID objectInstanceID,
+	AwaResourceID resourceID, AwaResourceInstanceID resourceInstanceID, void **dataPointer, size_t *dataSize, bool *changed)
 {
-	Lwm2mCore_RegisterObjectType(context, "FlowAccess" , FLOWM2M_FLOW_ACCESS_OBJECT,
-		MultipleInstancesEnum_Single, MandatoryEnum_Optional, &flowAccessObjectOperationHandlers);
+	AwaResult result = AwaResult_InternalError;
 
-	REGISTER_FLOW_ACCESS_OBJECT_RESOURCE(context, "URL", FLOWM2M_FLOW_ACCESS_OBJECT_URL, \
-		ResourceTypeEnum_TypeString);
-	REGISTER_FLOW_ACCESS_OBJECT_RESOURCE(context, "CustomerKey", \
-		FLOWM2M_FLOW_ACCESS_OBJECT_CUSTOMERKEY, ResourceTypeEnum_TypeString);
-	REGISTER_FLOW_ACCESS_OBJECT_RESOURCE(context, "CustomerSecret", \
-		FLOWM2M_FLOW_ACCESS_OBJECT_CUSTOMERSECRET, ResourceTypeEnum_TypeString);
-	REGISTER_FLOW_ACCESS_OBJECT_RESOURCE(context, "RememberMeToken", \
-		FLOWM2M_FLOW_ACCESS_OBJECT_REMEMBERMETOKEN, ResourceTypeEnum_TypeString);
-	REGISTER_FLOW_ACCESS_OBJECT_RESOURCE(context, "RememberMeTokenExpiry", \
-		FLOWM2M_FLOW_ACCESS_OBJECT_REMEMBERMETOKENEXPIRY, ResourceTypeEnum_TypeOpaque);
+	if (!((objectID == FLOWM2M_FLOW_ACCESS_OBJECT) && (objectInstanceID >= 0) && (objectInstanceID < FLOW_ACCESS_INSTANCES)))
+	{
+		printf("incorrect flow access object data\n");
+		return result;
+	}
+
+	switch (operation)
+	{
+        case AwaOperation_DeleteObjectInstance:
+            result = AwaResult_SuccessDeleted;
+            memset(&flowAccess[objectInstanceID], 0, sizeof(flowAccess[objectInstanceID]));
+            break;
+
+		case AwaOperation_CreateObjectInstance:
+			result = AwaResult_SuccessCreated;
+			memset(&flowAccess[objectInstanceID], 0, sizeof(flowAccess[objectInstanceID]));
+			break;
+
+		case AwaOperation_CreateResource:
+			result = AwaResult_SuccessCreated;
+			break;
+
+		case AwaOperation_Read:
+			switch (resourceID)
+			{
+				case FLOWM2M_FLOW_ACCESS_OBJECT_URL:
+					*dataPointer = flowAccess[objectInstanceID].URL;
+					*dataSize = strlen(flowAccess[objectInstanceID].URL) ;
+					result = AwaResult_SuccessContent;
+					break;
+
+				case FLOWM2M_FLOW_ACCESS_OBJECT_CUSTOMERKEY:
+					*dataPointer = flowAccess[objectInstanceID].CustomerKey;
+					*dataSize = strlen(flowAccess[objectInstanceID].CustomerKey);
+					result = AwaResult_SuccessContent;
+					break;
+
+				case FLOWM2M_FLOW_ACCESS_OBJECT_CUSTOMERSECRET:
+					*dataPointer = flowAccess[objectInstanceID].CustomerSecret;
+					*dataSize = strlen(flowAccess[objectInstanceID].CustomerSecret);
+					result = AwaResult_SuccessContent;
+					break;
+
+				case FLOWM2M_FLOW_ACCESS_OBJECT_REMEMBERMETOKEN:
+					*dataPointer = flowAccess[objectInstanceID].RememberMeToken;
+					*dataSize = strlen(flowAccess[objectInstanceID].RememberMeToken);
+					result = AwaResult_SuccessContent;
+					break;
+
+				case FLOWM2M_FLOW_ACCESS_OBJECT_REMEMBERMETOKENEXPIRY:
+					*dataPointer = &flowAccess[objectInstanceID].RememberMeTokenExpiry;
+					*dataSize = sizeof(flowAccess[objectInstanceID].RememberMeTokenExpiry);
+					result = AwaResult_SuccessContent;
+					break;
+
+				default:
+					printf("\n invalid res id for flow access - read op");
+					break;
+			}
+			break;
+
+			case AwaOperation_Write:
+				switch (resourceID)
+				{
+					case FLOWM2M_FLOW_ACCESS_OBJECT_URL:
+						memcpy(flowAccess[objectInstanceID].URL, *dataPointer, *dataSize);
+						flowAccess[objectInstanceID].URL[*dataSize] = '\0';
+						*changed = true;
+						result = AwaResult_SuccessChanged;
+						break;
+
+					case FLOWM2M_FLOW_ACCESS_OBJECT_CUSTOMERKEY:
+					    memcpy(flowAccess[objectInstanceID].CustomerKey,*dataPointer, *dataSize);
+					    flowAccess[objectInstanceID].CustomerKey[*dataSize] = '\0';
+						*changed = true;
+						result = AwaResult_SuccessChanged;
+						break;
+
+					case FLOWM2M_FLOW_ACCESS_OBJECT_CUSTOMERSECRET:
+					    memcpy(flowAccess[objectInstanceID].CustomerSecret, *dataPointer, *dataSize);
+					    flowAccess[objectInstanceID].CustomerSecret[*dataSize] = '\0';
+						*changed = true;
+						result = AwaResult_SuccessChanged;
+						break;
+
+					case FLOWM2M_FLOW_ACCESS_OBJECT_REMEMBERMETOKEN:
+					    memcpy(flowAccess[objectInstanceID].RememberMeToken, *dataPointer, *dataSize);
+					    flowAccess[objectInstanceID].RememberMeToken[*dataSize] = '\0';
+						*changed = true;
+						result = AwaResult_SuccessChanged;
+						break;
+
+					case FLOWM2M_FLOW_ACCESS_OBJECT_REMEMBERMETOKENEXPIRY:
+						flowAccess[objectInstanceID].RememberMeTokenExpiry = *((AwaTime *)*dataPointer);
+						*changed = true;
+						result = AwaResult_SuccessChanged;
+						break;
+
+					default:
+						printf("invalid res id %d for flow access - write op\n", resourceID);
+						break;
+				}
+				break;
+
+		default:
+			printf("flow access - unknown operation\n");
+			break;
+	}
+	return result;
+}
+
+int DefineFlowAccessObject(AwaStaticClient *awaClient)
+{
+	AwaError error;
+
+	error = AwaStaticClient_DefineObjectWithHandler(awaClient, "FlowAccess", FLOWM2M_FLOW_ACCESS_OBJECT, 0, FLOW_ACCESS_INSTANCES, accessHandler);
+	if (error != AwaError_Success)
+	{
+		printf("Failed to register flow access object\n");
+		return 1;
+	}
+
+	error = AwaStaticClient_DefineResourceWithHandler(awaClient, "URL", FLOWM2M_FLOW_ACCESS_OBJECT, FLOWM2M_FLOW_ACCESS_OBJECT_URL, AwaResourceType_String, 0, 1, AwaResourceOperations_ReadWrite,
+		accessHandler);
+	if (error != AwaError_Success)
+	{
+		printf("Failed to define URL resource\n");
+		return 1;
+	}
+
+	error = AwaStaticClient_DefineResourceWithHandler(awaClient, "CustomerKey",  FLOWM2M_FLOW_ACCESS_OBJECT, FLOWM2M_FLOW_ACCESS_OBJECT_CUSTOMERKEY, AwaResourceType_String, 0, 1, AwaResourceOperations_ReadWrite,
+		accessHandler);
+	if (error != AwaError_Success)
+	{
+		printf("Failed to define CustomerKey resource\n");
+		return 1;
+	}
+
+	error = AwaStaticClient_DefineResourceWithHandler(awaClient, "CustomerSecret", FLOWM2M_FLOW_ACCESS_OBJECT, FLOWM2M_FLOW_ACCESS_OBJECT_CUSTOMERSECRET, AwaResourceType_String, 0, 1, AwaResourceOperations_ReadWrite,
+		accessHandler);
+	if (error != AwaError_Success)
+	{
+		printf("Failed to define CustomerSecret resource\n");
+		return 1;
+	}
+
+	error = AwaStaticClient_DefineResourceWithHandler(awaClient, "RememberMeToken", FLOWM2M_FLOW_ACCESS_OBJECT, FLOWM2M_FLOW_ACCESS_OBJECT_REMEMBERMETOKEN, AwaResourceType_String, 0, 1, AwaResourceOperations_ReadWrite,
+		accessHandler);
+	if (error != AwaError_Success)
+	{
+		printf("Failed to define RememberMeToken resource\n");
+		return 1;
+	}
+
+	error = AwaStaticClient_DefineResourceWithHandler(awaClient, "RememberMeTokenExpiry", FLOWM2M_FLOW_ACCESS_OBJECT, FLOWM2M_FLOW_ACCESS_OBJECT_REMEMBERMETOKENEXPIRY, AwaResourceType_Time, 0, 1, AwaResourceOperations_ReadWrite,
+		accessHandler);
+	if (error != AwaError_Success)
+	{
+		printf("Failed to define RememberMeTokenExpiry resource\n");
+		return 1;
+	}
 
 	return 0;
 }

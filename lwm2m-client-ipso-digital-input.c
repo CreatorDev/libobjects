@@ -43,7 +43,6 @@
 #include <string.h>
 #include "lwm2m_core.h"
 #include "coap_abstraction.h"
-#include "common.h"
 
 /***************************************************************************************************
  * Definitions

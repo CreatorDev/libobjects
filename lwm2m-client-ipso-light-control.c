@@ -44,7 +44,6 @@
 #include "lwm2m_core.h"
 #include "coap_abstraction.h"
 #include "lwm2m-client-ipso-light-control.h"
-#include "common.h"
 
 /***************************************************************************************************
  * Definitions

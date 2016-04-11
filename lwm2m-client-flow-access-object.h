@@ -36,6 +36,6 @@
 #ifndef LWM2M_CLIENT_FLOW_ACCESS_OBJECT_H_
 #define LWM2M_CLIENT_FLOW_ACCESS_OBJECT_H_
 
-int Lwm2m_RegisterFlowAccessObject(Lwm2mContextType * context);
+int DefineFlowAccessObject(AwaStaticClient *awaClient);
 
 #endif /* LWM2M_CLIENT_FLOW_ACCESS_OBJECT_H_ */
