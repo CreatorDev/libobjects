@@ -239,13 +239,13 @@ static int TemperatureSensor_ResourceWriteHandler(void * context, ObjectIDType o
 int TemperatureSensor_RegisterTemperatureSensorObject(Lwm2mContextType * context)
 {
 
-	REGISTER_OBJECT(context, "TemperatureSensor", IPSO_TEMPERATURE_SENSOR_OBJECT,           \
-		MultipleInstancesEnum_Multiple, MandatoryEnum_Optional,                             \
+	REGISTER_OBJECT(context, "TemperatureSensor", IPSO_TEMPERATURE_SENSOR_OBJECT,          \
+		MultipleInstancesEnum_Multiple, MandatoryEnum_Optional,                            \
 		&TemperatureSensorObjectOperationHandlers);
 
-	REGISTER_TEMPERATURE_SENSOR_RESOURCE(context, "SensorValue", IPSO_SENSOR_VALUE,         \
+	REGISTER_TEMPERATURE_SENSOR_RESOURCE(context, "SensorValue", IPSO_SENSOR_VALUE,        \
 	  	ResourceTypeEnum_TypeFloat, Operations_R);
-	REGISTER_TEMPERATURE_SENSOR_RESOURCE(context, "SetPointValue",IPSO_SET_POINT_VALUE,     \
+	REGISTER_TEMPERATURE_SENSOR_RESOURCE(context, "SetPointValue",IPSO_SET_POINT_VALUE,    \
 		ResourceTypeEnum_TypeInteger, Operations_RW);
 	
 	return 0;
