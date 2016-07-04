@@ -308,95 +308,84 @@ int DefineFlowObject(AwaStaticClient *awaClient)
 {
     AwaError error;
 
-    error = AwaStaticClient_DefineObjectWithHandler(awaClient, "Flow", FLOWM2M_FLOW_OBJECT, 0, FLOW_INSTANCES, handler);
+    error = AwaStaticClient_SetObjectOperationHandler(awaClient, FLOWM2M_FLOW_OBJECT, handler);
     if (error != AwaError_Success)
     {
         printf("Failed to register flow bject\n");
         return 1;
     }
 
-    error = AwaStaticClient_DefineResourceWithHandler(awaClient, "DeviceID", FLOWM2M_FLOW_OBJECT, FLOWM2M_FLOW_OBJECT_DEVICEID, AwaResourceType_Opaque, 1, 1, AwaResourceOperations_ReadWrite,
-    handler);
+    error = AwaStaticClient_SetResourceOperationHandler(awaClient, FLOWM2M_FLOW_OBJECT, FLOWM2M_FLOW_OBJECT_DEVICEID, handler);
     if (error != AwaError_Success)
     {
         printf("Failed to define deviceID resource\n");
         return 1;
     }
 
-    error = AwaStaticClient_DefineResourceWithHandler(awaClient, "ParentID",  FLOWM2M_FLOW_OBJECT, FLOWM2M_FLOW_OBJECT_PARENTID, AwaResourceType_Opaque, 0, 1, AwaResourceOperations_ReadWrite,
-        handler);
+    error = AwaStaticClient_SetResourceOperationHandler(awaClient, FLOWM2M_FLOW_OBJECT, FLOWM2M_FLOW_OBJECT_PARENTID, handler);
     if (error != AwaError_Success)
     {
         printf("Failed to define parentID resource\n");
         return 1;
     }
 
-    error = AwaStaticClient_DefineResourceWithHandler(awaClient, "DeviceType", FLOWM2M_FLOW_OBJECT, FLOWM2M_FLOW_OBJECT_DEVICETYPE, AwaResourceType_String, 1, 1, AwaResourceOperations_ReadWrite,
-        handler);
+    error = AwaStaticClient_SetResourceOperationHandler(awaClient, FLOWM2M_FLOW_OBJECT, FLOWM2M_FLOW_OBJECT_DEVICETYPE, handler);
     if (error != AwaError_Success)
     {
         printf("Failed to define device type resource\n");
         return 1;
     }
 
-    error = AwaStaticClient_DefineResourceWithHandler(awaClient, "Name", FLOWM2M_FLOW_OBJECT, FLOWM2M_FLOW_OBJECT_NAME, AwaResourceType_String, 0, 1, AwaResourceOperations_ReadWrite,
-        handler);
+    error = AwaStaticClient_SetResourceOperationHandler(awaClient, FLOWM2M_FLOW_OBJECT, FLOWM2M_FLOW_OBJECT_NAME, handler);
     if (error != AwaError_Success)
     {
         printf("Failed to define name resource\n");
         return 1;
     }
 
-    error = AwaStaticClient_DefineResourceWithHandler(awaClient, "Description", FLOWM2M_FLOW_OBJECT, FLOWM2M_FLOW_OBJECT_DESCRIPTION, AwaResourceType_String, 0, 1, AwaResourceOperations_ReadWrite,
-        handler);
+    error = AwaStaticClient_SetResourceOperationHandler(awaClient, FLOWM2M_FLOW_OBJECT, FLOWM2M_FLOW_OBJECT_DESCRIPTION, handler);
     if (error != AwaError_Success)
     {
         printf("Failed to define description resource\n");
         return 1;
     }
 
-    error = AwaStaticClient_DefineResourceWithHandler(awaClient, "FCAP", FLOWM2M_FLOW_OBJECT, FLOWM2M_FLOW_OBJECT_FCAP, AwaResourceType_String, 1, 1, AwaResourceOperations_ReadWrite,
-        handler);
+    error = AwaStaticClient_SetResourceOperationHandler(awaClient, FLOWM2M_FLOW_OBJECT, FLOWM2M_FLOW_OBJECT_FCAP, handler);
     if (error != AwaError_Success)
     {
         printf("Failed to define FCAP resource\n");
         return 1;
     }
 
-    error = AwaStaticClient_DefineResourceWithHandler(awaClient, "LicenseeID", FLOWM2M_FLOW_OBJECT, FLOWM2M_FLOW_OBJECT_LICENSEEID, AwaResourceType_Integer, 1, 1, AwaResourceOperations_ReadWrite,
-        handler);
+    error = AwaStaticClient_SetResourceOperationHandler(awaClient, FLOWM2M_FLOW_OBJECT, FLOWM2M_FLOW_OBJECT_LICENSEEID, handler);
     if (error != AwaError_Success)
     {
         printf("Failed to define LicenseeID resource\n");
         return 1;
     }
 
-    error = AwaStaticClient_DefineResourceWithHandler(awaClient, "LicenseeChallenge", FLOWM2M_FLOW_OBJECT, FLOWM2M_FLOW_OBJECT_LICENSEECHALLENGE, AwaResourceType_Opaque, 0, 1, AwaResourceOperations_ReadWrite,
-        handler);
+    error = AwaStaticClient_SetResourceOperationHandler(awaClient, FLOWM2M_FLOW_OBJECT, FLOWM2M_FLOW_OBJECT_LICENSEECHALLENGE, handler);
     if (error != AwaError_Success)
     {
         printf("Failed to define LicenseeChallenge resource\n");
         return 1;
     }
 
-    error = AwaStaticClient_DefineResourceWithHandler(awaClient, "HashIterations", FLOWM2M_FLOW_OBJECT, FLOWM2M_FLOW_OBJECT_HASHITERATIONS, AwaResourceType_Integer, 0, 1, AwaResourceOperations_ReadWrite,
-        handler);
+    error = AwaStaticClient_SetResourceOperationHandler(awaClient, FLOWM2M_FLOW_OBJECT, FLOWM2M_FLOW_OBJECT_HASHITERATIONS, handler);
     if (error != AwaError_Success)
     {
         printf("Failed to define HashIterations resource\n");
         return 1;
     }
 
-    error = AwaStaticClient_DefineResourceWithHandler(awaClient, "LicenseeHash", FLOWM2M_FLOW_OBJECT, FLOWM2M_FLOW_OBJECT_LICENSEEHASH, AwaResourceType_Opaque, 0, 1, AwaResourceOperations_ReadWrite,
-        handler);
+    error = AwaStaticClient_SetResourceOperationHandler(awaClient, FLOWM2M_FLOW_OBJECT, FLOWM2M_FLOW_OBJECT_LICENSEEHASH, handler);
     if (error != AwaError_Success)
     {
         printf("Failed to define LicenseeHash resource\n");
         return 1;
     }
 
-    error = AwaStaticClient_DefineResourceWithHandler(awaClient, "Status", FLOWM2M_FLOW_OBJECT, FLOWM2M_FLOW_OBJECT_STATUS, AwaResourceType_Integer, 0, 1, AwaResourceOperations_ReadWrite,
-        handler);
+    error = AwaStaticClient_SetResourceOperationHandler(awaClient, FLOWM2M_FLOW_OBJECT, FLOWM2M_FLOW_OBJECT_STATUS, handler);
     if (error != AwaError_Success)
     {
         printf("Failed to define Status resource\n");

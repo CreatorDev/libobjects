@@ -194,49 +194,49 @@ int DefinePresenceSensorObject(AwaStaticClient *awaClient)
     AwaError error;
     int i;
 
-    error = AwaStaticClient_DefineObjectWithHandler(awaClient, "PresenceSensor", IPSO_PRESENCE_OBJECT, 0, PRESENCE_SENSORS, PresenceSensorHandler);
+    error = AwaStaticClient_SetObjectOperationHandler(awaClient, IPSO_PRESENCE_OBJECT, PresenceSensorHandler);
     if (error != AwaError_Success)
     {
         printf("Failed to register flow access object\n");
         return 1;
     }
 
-    error = AwaStaticClient_DefineResourceWithHandler(awaClient, "State", IPSO_PRESENCE_OBJECT, IPSO_DIGITAL_INPUT_STATE, AwaResourceType_Boolean, 1, 1, AwaResourceOperations_ReadOnly, PresenceSensorHandler);
+    error = AwaStaticClient_SetResourceOperationHandler(awaClient, IPSO_PRESENCE_OBJECT, IPSO_DIGITAL_INPUT_STATE, PresenceSensorHandler);
     if (error != AwaError_Success)
     {
         printf("Failed to define State resource\n");
         return 1;
     }
 
-    error = AwaStaticClient_DefineResourceWithHandler(awaClient, "Counter", IPSO_PRESENCE_OBJECT, IPSO_DIGITAL_INPUT_COUNTER, AwaResourceType_Integer, 0, 1, AwaResourceOperations_ReadOnly, PresenceSensorHandler);
+    error = AwaStaticClient_SetResourceOperationHandler(awaClient, IPSO_PRESENCE_OBJECT, IPSO_DIGITAL_INPUT_COUNTER, PresenceSensorHandler);
     if (error != AwaError_Success)
     {
         printf("Failed to define Counter resource\n");
         return 1;
     }
 
-    error = AwaStaticClient_DefineResourceWithHandler(awaClient, "SensorType", IPSO_PRESENCE_OBJECT , IPSO_SENSOR_TYPE, AwaResourceType_String, 0, 1, AwaResourceOperations_ReadOnly, PresenceSensorHandler);
+    error = AwaStaticClient_SetResourceOperationHandler(awaClient, IPSO_PRESENCE_OBJECT , IPSO_SENSOR_TYPE, PresenceSensorHandler);
     if (error != AwaError_Success)
     {
         printf("Failed to define SensorType resource\n");
         return 1;
     }
 
-    error = AwaStaticClient_DefineResourceWithHandler(awaClient, "BusyToClearDelay", IPSO_PRESENCE_OBJECT, IPSO_BUSY_TO_CLEAR_DELAY, AwaResourceType_Integer, 0, 1, AwaResourceOperations_ReadOnly, PresenceSensorHandler);
+    error = AwaStaticClient_SetResourceOperationHandler(awaClient, IPSO_PRESENCE_OBJECT, IPSO_BUSY_TO_CLEAR_DELAY, PresenceSensorHandler);
     if (error != AwaError_Success)
     {
         printf("Failed to define BusyToClearDelay resource\n");
         return 1;
     }
 
-    error = AwaStaticClient_DefineResourceWithHandler(awaClient, "ClearToBusyDelay", IPSO_PRESENCE_OBJECT, IPSO_CLEAR_TO_BUSY_DELAY, AwaResourceType_Integer, 0, 1, AwaResourceOperations_ReadOnly, PresenceSensorHandler);
+    error = AwaStaticClient_SetResourceOperationHandler(awaClient, IPSO_PRESENCE_OBJECT, IPSO_CLEAR_TO_BUSY_DELAY, PresenceSensorHandler);
     if (error != AwaError_Success)
     {
         printf("Failed to define ClearToBusyDelay resource\n");
         return 1;
     }
 
-    error = AwaStaticClient_DefineResourceWithHandler(awaClient, "CounterReset", IPSO_PRESENCE_OBJECT , IPSO_DIGITAL_INPUT_COUNTER_RESET, AwaResourceType_Opaque, 0, 1, AwaResourceOperations_Execute, PresenceSensorHandler);
+    error = AwaStaticClient_SetResourceOperationHandler(awaClient, IPSO_PRESENCE_OBJECT , IPSO_DIGITAL_INPUT_COUNTER_RESET, PresenceSensorHandler);
     if (error != AwaError_Success)
     {
         printf("Failed to define CounterReset resource\n");

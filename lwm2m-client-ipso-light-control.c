@@ -234,56 +234,56 @@ static AwaResult lightControlHandler(AwaStaticClient *client, AwaOperation opera
 int DefineLightControlObject(AwaStaticClient *awaClient)
 {
     AwaError error;
-    error = AwaStaticClient_DefineObjectWithHandler(awaClient, "LightControl", IPSO_LIGHT_CONTROL_OBJECT, 0, LIGHT_CONTROLS, lightControlHandler);
+    error = AwaStaticClient_SetObjectOperationHandler(awaClient, IPSO_LIGHT_CONTROL_OBJECT, lightControlHandler);
     if (error != AwaError_Success)
     {
         printf("Failed to register light control object\n");
         return -1;
     }
 
-    error = AwaStaticClient_DefineResourceWithHandler(awaClient, "On/Off", IPSO_LIGHT_CONTROL_OBJECT, IPSO_LIGHT_CONTROL_ON_OFF, AwaResourceType_Boolean, 1, 1, AwaResourceOperations_ReadWrite, lightControlHandler);
+    error = AwaStaticClient_SetResourceOperationHandler(awaClient, IPSO_LIGHT_CONTROL_OBJECT, IPSO_LIGHT_CONTROL_ON_OFF, lightControlHandler);
     if (error != AwaError_Success)
     {
         printf("Failed to define On/Off resource\n");
         return -1;
     }
 
-    error = AwaStaticClient_DefineResourceWithHandler(awaClient, "Dimmer", IPSO_LIGHT_CONTROL_OBJECT, IPSO_LIGHT_CONTROL_DIMMER, AwaResourceType_Integer, 0, 1, AwaResourceOperations_ReadWrite, lightControlHandler);
+    error = AwaStaticClient_SetResourceOperationHandler(awaClient, IPSO_LIGHT_CONTROL_OBJECT, IPSO_LIGHT_CONTROL_DIMMER, lightControlHandler);
     if (error != AwaError_Success)
     {
         printf("Failed to define Dimmer resource\n");
         return -1;
     }
 
-    error = AwaStaticClient_DefineResourceWithHandler(awaClient, "Colour", IPSO_LIGHT_CONTROL_OBJECT, IPSO_LIGHT_CONTROL_COLOUR, AwaResourceType_String, 0, 1, AwaResourceOperations_ReadWrite, lightControlHandler);
+    error = AwaStaticClient_SetResourceOperationHandler(awaClient, IPSO_LIGHT_CONTROL_OBJECT, IPSO_LIGHT_CONTROL_COLOUR, lightControlHandler);
     if (error != AwaError_Success)
     {
         printf("Failed to define Colour resource\n");
         return -1;
     }
 
-    error = AwaStaticClient_DefineResourceWithHandler(awaClient, "Units", IPSO_LIGHT_CONTROL_OBJECT, IPSO_LIGHT_CONTROL_UNITS, AwaResourceType_String, 1, 1, AwaResourceOperations_ReadOnly, lightControlHandler);
+    error = AwaStaticClient_SetResourceOperationHandler(awaClient, IPSO_LIGHT_CONTROL_OBJECT, IPSO_LIGHT_CONTROL_UNITS, lightControlHandler);
     if (error != AwaError_Success)
     {
         printf("Failed to define Units resource\n");
         return -1;
     }
 
-    error = AwaStaticClient_DefineResourceWithHandler(awaClient, "OnTime", IPSO_LIGHT_CONTROL_OBJECT, IPSO_LIGHT_CONTROL_ON_TIME, AwaResourceType_Integer, 0, 1, AwaResourceOperations_ReadWrite, lightControlHandler);
+    error = AwaStaticClient_SetResourceOperationHandler(awaClient, IPSO_LIGHT_CONTROL_OBJECT, IPSO_LIGHT_CONTROL_ON_TIME, lightControlHandler);
     if (error != AwaError_Success)
     {
         printf("Failed to define OnTime resource\n");
         return -1;
     }
 
-    error = AwaStaticClient_DefineResourceWithHandler(awaClient, "CumulativeActivePower", IPSO_LIGHT_CONTROL_OBJECT, IPSO_LIGHT_CONTROL_CUMULATIVE_ACTIVE_POWER, AwaResourceType_Float, 0, 1, AwaResourceOperations_ReadOnly, lightControlHandler);
+    error = AwaStaticClient_SetResourceOperationHandler(awaClient, IPSO_LIGHT_CONTROL_OBJECT, IPSO_LIGHT_CONTROL_CUMULATIVE_ACTIVE_POWER, lightControlHandler);
     if (error != AwaError_Success)
     {
         printf("Failed to define CumulativeActivePower resource\n");
         return -1;
     }
 
-    error = AwaStaticClient_DefineResourceWithHandler(awaClient, "PowerFactor", IPSO_LIGHT_CONTROL_OBJECT , IPSO_LIGHT_CONTROL_POWER_FACTOR, AwaResourceType_Float, 0, 1, AwaResourceOperations_ReadOnly, lightControlHandler);
+    error = AwaStaticClient_SetResourceOperationHandler(awaClient, IPSO_LIGHT_CONTROL_OBJECT , IPSO_LIGHT_CONTROL_POWER_FACTOR, lightControlHandler);
     if (error != AwaError_Success)
     {
         printf("Failed to define PowerFactor resource\n");

@@ -222,63 +222,63 @@ int DefineDigitalInputObject(AwaStaticClient *awaClient)
     AwaError error;
     int i;
 
-    error = AwaStaticClient_DefineObjectWithHandler(awaClient, "DigitalInput", IPSO_DIGITAL_INPUT_OBJECT, 0, DIGITAL_INPUTS, digitalInputHandler);
+    error = AwaStaticClient_SetObjectOperationHandler(awaClient, IPSO_DIGITAL_INPUT_OBJECT, digitalInputHandler);
     if (error != AwaError_Success)
     {
         printf("Failed to register flow access object\n");
         return 1;
     }
 
-    error = AwaStaticClient_DefineResourceWithHandler(awaClient, "State", IPSO_DIGITAL_INPUT_OBJECT, IPSO_DIGITAL_INPUT_STATE, AwaResourceType_Boolean, 1, 1, AwaResourceOperations_ReadOnly, digitalInputHandler);
+    error = AwaStaticClient_SetResourceOperationHandler(awaClient, IPSO_DIGITAL_INPUT_OBJECT, IPSO_DIGITAL_INPUT_STATE, digitalInputHandler);
     if (error != AwaError_Success)
     {
         printf("Failed to define State resource\n");
         return 1;
     }
 
-    error = AwaStaticClient_DefineResourceWithHandler(awaClient, "Counter", IPSO_DIGITAL_INPUT_OBJECT, IPSO_DIGITAL_INPUT_COUNTER, AwaResourceType_Integer, 0, 1, AwaResourceOperations_ReadOnly, digitalInputHandler);
+    error = AwaStaticClient_SetResourceOperationHandler(awaClient, IPSO_DIGITAL_INPUT_OBJECT, IPSO_DIGITAL_INPUT_COUNTER, digitalInputHandler);
     if (error != AwaError_Success)
     {
         printf("Failed to define Counter resource\n");
         return 1;
     }
 
-    error = AwaStaticClient_DefineResourceWithHandler(awaClient, "Polarity", IPSO_DIGITAL_INPUT_OBJECT, IPSO_DIGITAL_INPUT_POLARITY, AwaResourceType_Boolean, 0, 1, AwaResourceOperations_ReadWrite, digitalInputHandler);
+    error = AwaStaticClient_SetResourceOperationHandler(awaClient, IPSO_DIGITAL_INPUT_OBJECT, IPSO_DIGITAL_INPUT_POLARITY, digitalInputHandler);
     if (error != AwaError_Success)
     {
         printf("Failed to define Polarity resource\n");
         return 1;
     }
 
-    error = AwaStaticClient_DefineResourceWithHandler(awaClient, "DebouncePeriod", IPSO_DIGITAL_INPUT_OBJECT, IPSO_DIGITAL_INPUT_DEBOUNCE_PERIOD, AwaResourceType_Time, 0, 1, AwaResourceOperations_ReadWrite, digitalInputHandler);
+    error = AwaStaticClient_SetResourceOperationHandler(awaClient, IPSO_DIGITAL_INPUT_OBJECT, IPSO_DIGITAL_INPUT_DEBOUNCE_PERIOD, digitalInputHandler);
     if (error != AwaError_Success)
     {
         printf("Failed to define DebouncePeriod resource\n");
         return 1;
     }
 
-    error = AwaStaticClient_DefineResourceWithHandler(awaClient, "EdgeSelection", IPSO_DIGITAL_INPUT_OBJECT, IPSO_DIGITAL_INPUT_EDGE_SELECTION, AwaResourceType_Integer, 0, 1, AwaResourceOperations_ReadWrite, digitalInputHandler);
+    error = AwaStaticClient_SetResourceOperationHandler(awaClient, IPSO_DIGITAL_INPUT_OBJECT, IPSO_DIGITAL_INPUT_EDGE_SELECTION, digitalInputHandler);
     if (error != AwaError_Success)
     {
         printf("Failed to define EdgeSelection resource\n");
         return 1;
     }
 
-    error = AwaStaticClient_DefineResourceWithHandler(awaClient, "ApplicationType", IPSO_DIGITAL_INPUT_OBJECT, IPSO_APPLICATION_TYPE, AwaResourceType_String, 0, 1, AwaResourceOperations_ReadOnly, digitalInputHandler);
+    error = AwaStaticClient_SetResourceOperationHandler(awaClient, IPSO_DIGITAL_INPUT_OBJECT, IPSO_APPLICATION_TYPE, digitalInputHandler);
     if (error != AwaError_Success)
     {
         printf("Failed to define ApplicationType resource\n");
         return 1;
     }
 
-    error = AwaStaticClient_DefineResourceWithHandler(awaClient, "SensorType", IPSO_DIGITAL_INPUT_OBJECT , IPSO_SENSOR_TYPE, AwaResourceType_String, 0, 1, AwaResourceOperations_ReadOnly, digitalInputHandler);
+    error = AwaStaticClient_SetResourceOperationHandler(awaClient, IPSO_DIGITAL_INPUT_OBJECT , IPSO_SENSOR_TYPE, digitalInputHandler);
     if (error != AwaError_Success)
     {
         printf("Failed to define SensorType resource\n");
         return 1;
     }
 
-    error = AwaStaticClient_DefineResourceWithHandler(awaClient, "CounterReset", IPSO_DIGITAL_INPUT_OBJECT , IPSO_DIGITAL_INPUT_COUNTER_RESET, AwaResourceType_Opaque, 0, 1, AwaResourceOperations_Execute, digitalInputHandler);
+    error = AwaStaticClient_SetResourceOperationHandler(awaClient, IPSO_DIGITAL_INPUT_OBJECT , IPSO_DIGITAL_INPUT_COUNTER_RESET, digitalInputHandler);
     if (error != AwaError_Success)
     {
         printf("Failed to define CounterReset resource\n");
