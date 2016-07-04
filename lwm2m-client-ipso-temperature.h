@@ -1,6 +1,6 @@
 /**
  * @file
- * LightWeightM2M LWM2M Presence Sensor object.
+ * LightWeightM2M LWM2M Temperature object.
  *
  * @author Imagination Technologies
  *
@@ -33,8 +33,8 @@
  * WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#ifndef LWM2M_CLIENT_IPSO_PRESENCE_SENSOR_H_
-#define LWM2M_CLIENT_IPSO_PRESENCE_SENSOR_H_
+#ifndef LWM2M_CLIENT_IPSO_TEMPERATURE_H_
+#define LWM2M_CLIENT_IPSO_TEMPERATURE_H_
 
 #include "awa/static.h"
 
@@ -42,21 +42,36 @@
  * Macros
  **************************************************************************************************/
 
-#define IPSO_PRESENCE_OBJECT                    3302
-#define IPSO_DIGITAL_INPUT_STATE                5500
-#define IPSO_DIGITAL_INPUT_COUNTER              5501
-#define IPSO_DIGITAL_INPUT_COUNTER_RESET        5505
-#define IPSO_SENSOR_TYPE                        5751
-#define IPSO_BUSY_TO_CLEAR_DELAY                5903
-#define IPSO_CLEAR_TO_BUSY_DELAY                5904
+#define IPSO_TEMPERATURE_OBJECT                             3303
+#define IPSO_TEMPERATURE_SENSOR_VALUE                       5700
+#define IPSO_TEMPERATURE_UNITS                              5701
+#define IPSO_TEMPERATURE_MIN_MEASURED_VALUE                 5601
+#define IPSO_TEMPERATURE_MAX_MEASURED_VALUE                 5602
+#define IPSO_TEMPERATURE_MIN_RANGE_VALUE                    5603
+#define IPSO_TEMPERATURE_MAX_RANGE_VALUE                    5604
+#define IPSO_TEMPERATURE_RESET_MIN_AND_MAX_MEASURED_VALUES  5605
 
-#define PRESENCE_SENSORS                        1
 
 /***************************************************************************************************
  * Functions
  **************************************************************************************************/
 
-int DefinePresenceSensorObject(AwaStaticClient *awaClient);
-int PresenceSensor_IncrementCounter(AwaStaticClient *awaClient, AwaObjectInstanceID objectInstanceID);
+/**
+ * @brief Define single IPSO Temperature object (with ID 3003) and all resources bound to it. It also takes min and max measurable temperatures as a parameters.
+ *  Range defined in this way is hardware specific and should be choosen from tech specification of used device.
+ * @param awaClient Reference to AWA client handle
+ * @param minRange Minimal temperature which can be measured and represented by this object
+ * @param maxRange Maximal temperature which can be measured and represented by this object
+ * @return If operation was sucessful then AwaError_Success is returned, to map other values please refer to AwaError type.
+ */
+AwaError TemperatureObject_DefineObjectsAndResources(AwaStaticClient *awaClient, AwaFloat minRange, AwaFloat maxRange);
 
-#endif /* LWM2M_CLIENT_IPSO_PRESENCE_SENSOR_H_ */
+/**
+ * @brief Updates current value of temperature. Call to this method updates also Min/Max measured values.
+ * @param awaClient Reference to AWA client handle
+ * @param temperature New value for temperature resource (Sensor value)
+ * @return If operation was sucessful then AwaError_Success is returned, to map other values please refer to AwaError type.
+ */
+AwaError TemperatureObject_SetTemperature(AwaStaticClient *awaClient, AwaFloat temperature);
+
+#endif /* LWM2M_CLIENT_IPSO_TEMPERATURE_H_ */
