@@ -76,6 +76,9 @@ static AwaResult SetPointObject_Handler(AwaStaticClient *client, AwaOperation op
 
     switch (operation)
     {
+        case AwaOperation_CreateObjectInstance:
+             return AwaResult_SuccessCreated;
+
         case AwaOperation_CreateResource:
             result = AwaResult_SuccessCreated;
             break;
@@ -97,7 +100,7 @@ static AwaResult SetPointObject_Handler(AwaStaticClient *client, AwaOperation op
             break;
 
         case AwaOperation_Write:
-            result = AwaResult_Success;
+            result = AwaResult_SuccessChanged;
             switch (resourceID)
             {
                 case IPSO_SET_POINT_VALUE:
@@ -141,8 +144,8 @@ AwaError SetPointObject_DefineObjectsAndResources(AwaStaticClient *awaClient)
 
     error = AwaStaticClient_DefineResource(awaClient, IPSO_SET_POINT_OBJECT, IPSO_SET_POINT_UNITS, "Units", AwaResourceType_String, 0, 1,
         AwaResourceOperations_ReadOnly);
-    AwaStaticClient_SetResourceStorageWithPointer(awaClient, IPSO_SET_POINT_OBJECT, IPSO_SET_POINT_UNITS, SetPointStorage.Units, strlen(SetPointStorage.Units),
-        0);
+    AwaStaticClient_SetResourceStorageWithPointer(awaClient, IPSO_SET_POINT_OBJECT, IPSO_SET_POINT_UNITS, SetPointStorage.Units,
+        strlen(SetPointStorage.Units), 0);
     if (error != AwaError_Success)
     {
         printf("Failed to define 'Units' resource\n");
