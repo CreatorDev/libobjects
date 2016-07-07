@@ -49,17 +49,23 @@
 #define IPSO_SET_POINT_APPLICATION_TYPE                   5750
 
 /***************************************************************************************************
+ * Typedefs
+ **************************************************************************************************/
+typedef void(*SetPointCallback)(AwaFloat newValue);
+
+/***************************************************************************************************
  * Functions
  **************************************************************************************************/
  /**
   * @brief Define single IPSO Set Point object (with ID 3008) and resources bound to it (excluding Colour).
   * @param awaClient Reference to AWA client handle
+  * @param valueChangeCallback callback which will be triggered when new value is recieved from outside
   * @return If operation was sucessful then AwaError_Success is returned, to map other values please refer to AwaError type.
   */
-AwaError SetPointObject_DefineObjectsAndResources(AwaStaticClient *awaClient);
+AwaError SetPointObject_DefineObjectsAndResources(AwaStaticClient *awaClient, SetPointCallback valueChangeCallback);
 
 /**
- * @brief Sets new value for "Set point" object, and sends notification about change to server.
+ * @brief Sets new value for "Set point" object, and sends notification about change to server. Call to this method does NOT trigger valueChangeCallback.
  * @param awaClient Reference to AWA client handle
  * @param value new value to be set
  * @return If operation was sucessful then AwaError_Success is returned, to map other values please refer to AwaError type.
@@ -67,7 +73,7 @@ AwaError SetPointObject_DefineObjectsAndResources(AwaStaticClient *awaClient);
 AwaError SetPointObject_SetValue(AwaStaticClient *awaClient, AwaFloat value);
 
  /**
-  * @brief Reads current value of "Set Point" object resource "Value"
+  * @brief Reads current value of "Set Point" object resource "Value".
   * @return Currently stored value in object.
   */
  AwaFloat SetPointObject_GetValue();

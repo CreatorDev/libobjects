@@ -234,6 +234,7 @@ static AwaResult lightControlHandler(AwaStaticClient *client, AwaOperation opera
 int DefineLightControlObject(AwaStaticClient *awaClient)
 {
     AwaError error;
+    AwaStaticClient_DefineObject(awaClient, IPSO_LIGHT_CONTROL_OBJECT, "LightControl", 0, LIGHT_CONTROLS);
     error = AwaStaticClient_SetObjectOperationHandler(awaClient, IPSO_LIGHT_CONTROL_OBJECT, lightControlHandler);
     if (error != AwaError_Success)
     {
@@ -241,6 +242,8 @@ int DefineLightControlObject(AwaStaticClient *awaClient)
         return -1;
     }
 
+    AwaStaticClient_DefineResource(awaClient, IPSO_LIGHT_CONTROL_OBJECT, IPSO_LIGHT_CONTROL_ON_OFF, "On/Off", AwaResourceType_Boolean, 1, 1,
+        AwaResourceOperations_ReadWrite);
     error = AwaStaticClient_SetResourceOperationHandler(awaClient, IPSO_LIGHT_CONTROL_OBJECT, IPSO_LIGHT_CONTROL_ON_OFF, lightControlHandler);
     if (error != AwaError_Success)
     {
@@ -248,6 +251,8 @@ int DefineLightControlObject(AwaStaticClient *awaClient)
         return -1;
     }
 
+    AwaStaticClient_DefineResource(awaClient, IPSO_LIGHT_CONTROL_OBJECT, IPSO_LIGHT_CONTROL_DIMMER, "Dimmer", AwaResourceType_Integer, 0, 1,
+        AwaResourceOperations_ReadWrite);
     error = AwaStaticClient_SetResourceOperationHandler(awaClient, IPSO_LIGHT_CONTROL_OBJECT, IPSO_LIGHT_CONTROL_DIMMER, lightControlHandler);
     if (error != AwaError_Success)
     {
@@ -255,6 +260,8 @@ int DefineLightControlObject(AwaStaticClient *awaClient)
         return -1;
     }
 
+    AwaStaticClient_DefineResource(awaClient, IPSO_LIGHT_CONTROL_OBJECT, IPSO_LIGHT_CONTROL_COLOUR, "Colour", AwaResourceType_String, 0, 1,
+        AwaResourceOperations_ReadWrite);
     error = AwaStaticClient_SetResourceOperationHandler(awaClient, IPSO_LIGHT_CONTROL_OBJECT, IPSO_LIGHT_CONTROL_COLOUR, lightControlHandler);
     if (error != AwaError_Success)
     {
@@ -262,6 +269,8 @@ int DefineLightControlObject(AwaStaticClient *awaClient)
         return -1;
     }
 
+    AwaStaticClient_DefineResource(awaClient, IPSO_LIGHT_CONTROL_OBJECT, IPSO_LIGHT_CONTROL_UNITS, "Units", AwaResourceType_String, 1, 1,
+        AwaResourceOperations_ReadOnly);
     error = AwaStaticClient_SetResourceOperationHandler(awaClient, IPSO_LIGHT_CONTROL_OBJECT, IPSO_LIGHT_CONTROL_UNITS, lightControlHandler);
     if (error != AwaError_Success)
     {
@@ -269,6 +278,8 @@ int DefineLightControlObject(AwaStaticClient *awaClient)
         return -1;
     }
 
+    AwaStaticClient_DefineResource(awaClient, IPSO_LIGHT_CONTROL_OBJECT, IPSO_LIGHT_CONTROL_ON_TIME, "OnTime", AwaResourceType_Integer, 0, 1,
+        AwaResourceOperations_ReadWrite);
     error = AwaStaticClient_SetResourceOperationHandler(awaClient, IPSO_LIGHT_CONTROL_OBJECT, IPSO_LIGHT_CONTROL_ON_TIME, lightControlHandler);
     if (error != AwaError_Success)
     {
@@ -276,6 +287,8 @@ int DefineLightControlObject(AwaStaticClient *awaClient)
         return -1;
     }
 
+    AwaStaticClient_DefineResource(awaClient, IPSO_LIGHT_CONTROL_OBJECT, IPSO_LIGHT_CONTROL_CUMULATIVE_ACTIVE_POWER, "CumulativeActivePower", AwaResourceType_Float, 0, 1,
+        AwaResourceOperations_ReadOnly);
     error = AwaStaticClient_SetResourceOperationHandler(awaClient, IPSO_LIGHT_CONTROL_OBJECT, IPSO_LIGHT_CONTROL_CUMULATIVE_ACTIVE_POWER, lightControlHandler);
     if (error != AwaError_Success)
     {
@@ -283,6 +296,8 @@ int DefineLightControlObject(AwaStaticClient *awaClient)
         return -1;
     }
 
+    AwaStaticClient_DefineResource(awaClient, IPSO_LIGHT_CONTROL_OBJECT, IPSO_LIGHT_CONTROL_POWER_FACTOR, "PowerFactor", AwaResourceType_Float, 0, 1,
+        AwaResourceOperations_ReadOnly);
     error = AwaStaticClient_SetResourceOperationHandler(awaClient, IPSO_LIGHT_CONTROL_OBJECT , IPSO_LIGHT_CONTROL_POWER_FACTOR, lightControlHandler);
     if (error != AwaError_Success)
     {

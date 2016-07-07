@@ -129,28 +129,111 @@ AwaResult executeHandler(AwaStaticClient *client, AwaOperation operation, AwaObj
 int DefineDeviceObject(AwaStaticClient *awaClient)
 {
     AwaStaticClient_DefineObject(awaClient, LWM2M_DEVICE_OBJECT, "Device", 1, 1);
-    AwaStaticClient_SetResourceStorageWithPointer(awaClient, LWM2M_DEVICE_OBJECT, LWM2M_DEVICE_OBJECT_MANUFACTURER,                DeviceObjectStorage.Manufacturer,             sizeof(DeviceObjectStorage.Manufacturer),             0);
-    AwaStaticClient_SetResourceStorageWithPointer(awaClient, LWM2M_DEVICE_OBJECT, LWM2M_DEVICE_OBJECT_MODEL_NUMBER,                DeviceObjectStorage.ModelNumber,              sizeof(DeviceObjectStorage.ModelNumber),              0);
-    AwaStaticClient_SetResourceStorageWithPointer(awaClient, LWM2M_DEVICE_OBJECT, LWM2M_DEVICE_OBJECT_SERIAL_NUMBER,               DeviceObjectStorage.SerialNumber,             sizeof(DeviceObjectStorage.SerialNumber),             0);
-    AwaStaticClient_SetResourceStorageWithPointer(awaClient, LWM2M_DEVICE_OBJECT, LWM2M_DEVICE_OBJECT_FIRMWARE_VERSION,            DeviceObjectStorage.FirmwareVersion,          sizeof(DeviceObjectStorage.FirmwareVersion),          0);
-    AwaStaticClient_SetResourceStorageWithPointer(awaClient, LWM2M_DEVICE_OBJECT, LWM2M_DEVICE_OBJECT_AVAILABLE_POWER_SOURCES,     DeviceObjectStorage.AvailablePowerSources,    sizeof(AwaInteger),                                   0);
-    AwaStaticClient_SetResourceStorageWithPointer(awaClient, LWM2M_DEVICE_OBJECT, LWM2M_DEVICE_OBJECT_POWER_SOURCE_VOLTAGE,        DeviceObjectStorage.PowerSourceVoltage,       sizeof(AwaInteger),                                   0);
-    AwaStaticClient_SetResourceStorageWithPointer(awaClient, LWM2M_DEVICE_OBJECT, LWM2M_DEVICE_OBJECT_POWER_SOURCE_CURRENT,        DeviceObjectStorage.PowerSourceCurrent,       sizeof(AwaInteger),                                   0);
-    AwaStaticClient_SetResourceStorageWithPointer(awaClient, LWM2M_DEVICE_OBJECT, LWM2M_DEVICE_OBJECT_BATTERY_LEVEL,               &DeviceObjectStorage.BatteryLevel,            sizeof(AwaInteger),                                   0 );
-    AwaStaticClient_SetResourceStorageWithPointer(awaClient, LWM2M_DEVICE_OBJECT, LWM2M_DEVICE_OBJECT_MEMORY_FREE,                 &DeviceObjectStorage.BatteryStatus,           sizeof(AwaInteger),                                   0 );
-    AwaStaticClient_SetResourceStorageWithPointer(awaClient, LWM2M_DEVICE_OBJECT, LWM2M_DEVICE_OBJECT_ERROR_CODE,                  DeviceObjectStorage.ErrorCode,                sizeof(AwaInteger),                                   0);
-    AwaStaticClient_SetResourceStorageWithPointer(awaClient, LWM2M_DEVICE_OBJECT, LWM2M_DEVICE_OBJECT_CURRENT_TIME,                &DeviceObjectStorage.CurrentTime,             sizeof(AwaTime),                                      0);
-    AwaStaticClient_SetResourceStorageWithPointer(awaClient, LWM2M_DEVICE_OBJECT, LWM2M_DEVICE_OBJECT_UTC_OFFSET,                  DeviceObjectStorage.UTCOffset,                sizeof(DeviceObjectStorage.UTCOffset),                0);
-    AwaStaticClient_SetResourceStorageWithPointer(awaClient, LWM2M_DEVICE_OBJECT, LWM2M_DEVICE_OBJECT_TIME_ZONE,                   DeviceObjectStorage.Timezone,                 sizeof(DeviceObjectStorage.Timezone),                 0);
-    AwaStaticClient_SetResourceStorageWithPointer(awaClient, LWM2M_DEVICE_OBJECT, LWM2M_DEVICE_OBJECT_SUPPORTED_BINDING_AND_MODES, DeviceObjectStorage.SupportedBindingandModes, sizeof(DeviceObjectStorage.SupportedBindingandModes), 0);
-    AwaStaticClient_SetResourceStorageWithPointer(awaClient, LWM2M_DEVICE_OBJECT, LWM2M_DEVICE_OBJECT_DEVICE_TYPE,                 DeviceObjectStorage.DeviceType,               sizeof(DeviceObjectStorage.DeviceType),               0);
-    AwaStaticClient_SetResourceStorageWithPointer(awaClient, LWM2M_DEVICE_OBJECT, LWM2M_DEVICE_OBJECT_HARDWARE_VERSION,            DeviceObjectStorage.HardwareVersion,          sizeof(DeviceObjectStorage.DeviceType),               0);
-    AwaStaticClient_SetResourceStorageWithPointer(awaClient, LWM2M_DEVICE_OBJECT, LWM2M_DEVICE_OBJECT_SOFTWARE_VERSION,            DeviceObjectStorage.SoftwareVersion,          sizeof(DeviceObjectStorage.SoftwareVersion),          0);
-    AwaStaticClient_SetResourceStorageWithPointer(awaClient, LWM2M_DEVICE_OBJECT, LWM2M_DEVICE_OBJECT_BATTERY_STATUS,              &DeviceObjectStorage.BatteryStatus ,          sizeof(AwaInteger),                                   0 );
-    AwaStaticClient_SetResourceStorageWithPointer(awaClient, LWM2M_DEVICE_OBJECT, LWM2M_DEVICE_OBJECT_MEMORY_TOTAL,                &DeviceObjectStorage.MemoryTotal ,            sizeof(AwaInteger),                                   0 );
+    AwaStaticClient_DefineResource(awaClient, LWM2M_DEVICE_OBJECT, LWM2M_DEVICE_OBJECT_MANUFACTURER, "Manufacturer", AwaResourceType_String, 0, 1,
+        AwaResourceOperations_ReadOnly);
+    AwaStaticClient_SetResourceStorageWithPointer(awaClient, LWM2M_DEVICE_OBJECT, LWM2M_DEVICE_OBJECT_MANUFACTURER, DeviceObjectStorage.Manufacturer,
+        sizeof(DeviceObjectStorage.Manufacturer), 0);
 
+    AwaStaticClient_DefineResource(awaClient, LWM2M_DEVICE_OBJECT, LWM2M_DEVICE_OBJECT_MODEL_NUMBER, "ModelNumber", AwaResourceType_String, 0, 1,
+        AwaResourceOperations_ReadOnly);
+    AwaStaticClient_SetResourceStorageWithPointer(awaClient, LWM2M_DEVICE_OBJECT, LWM2M_DEVICE_OBJECT_MODEL_NUMBER, DeviceObjectStorage.ModelNumber,
+        sizeof(DeviceObjectStorage.ModelNumber), 0);
+
+    AwaStaticClient_DefineResource(awaClient, LWM2M_DEVICE_OBJECT, LWM2M_DEVICE_OBJECT_SERIAL_NUMBER, "SerialNumber", AwaResourceType_String, 0, 1,
+        AwaResourceOperations_ReadOnly);
+    AwaStaticClient_SetResourceStorageWithPointer(awaClient, LWM2M_DEVICE_OBJECT, LWM2M_DEVICE_OBJECT_SERIAL_NUMBER, DeviceObjectStorage.SerialNumber,
+        sizeof(DeviceObjectStorage.SerialNumber), 0);
+
+    AwaStaticClient_DefineResource(awaClient, LWM2M_DEVICE_OBJECT, LWM2M_DEVICE_OBJECT_FIRMWARE_VERSION, "FirmwareVersion", AwaResourceType_String, 0, 1,
+        AwaResourceOperations_ReadOnly);
+    AwaStaticClient_SetResourceStorageWithPointer(awaClient, LWM2M_DEVICE_OBJECT, LWM2M_DEVICE_OBJECT_FIRMWARE_VERSION, DeviceObjectStorage.FirmwareVersion,
+        sizeof(DeviceObjectStorage.FirmwareVersion), 0);
+
+    AwaStaticClient_DefineResource(awaClient, LWM2M_DEVICE_OBJECT, LWM2M_DEVICE_OBJECT_AVAILABLE_POWER_SOURCES, "AvailablePowerSources",
+        AwaResourceType_Integer, 0, LWM2M_DEVICE_OBJECT_POWER_SOURCES_COUNT, AwaResourceOperations_ReadOnly);
+    AwaStaticClient_SetResourceStorageWithPointer(awaClient, LWM2M_DEVICE_OBJECT, LWM2M_DEVICE_OBJECT_AVAILABLE_POWER_SOURCES,
+        DeviceObjectStorage.AvailablePowerSources, sizeof(AwaInteger), 0);
+
+    AwaStaticClient_DefineResource(awaClient, LWM2M_DEVICE_OBJECT, LWM2M_DEVICE_OBJECT_POWER_SOURCE_VOLTAGE, "PowerSourceVoltage", AwaResourceType_Integer, 0,
+        LWM2M_DEVICE_OBJECT_POWER_SOURCES_COUNT, AwaResourceOperations_ReadOnly);
+    AwaStaticClient_SetResourceStorageWithPointer(awaClient, LWM2M_DEVICE_OBJECT, LWM2M_DEVICE_OBJECT_POWER_SOURCE_VOLTAGE,
+        DeviceObjectStorage.PowerSourceVoltage, sizeof(AwaInteger), 0);
+
+    AwaStaticClient_DefineResource(awaClient, LWM2M_DEVICE_OBJECT, LWM2M_DEVICE_OBJECT_POWER_SOURCE_CURRENT, "PowerSourceCurrent", AwaResourceType_Integer, 0,
+        LWM2M_DEVICE_OBJECT_POWER_SOURCES_COUNT, AwaResourceOperations_ReadOnly);
+    AwaStaticClient_SetResourceStorageWithPointer(awaClient, LWM2M_DEVICE_OBJECT, LWM2M_DEVICE_OBJECT_POWER_SOURCE_CURRENT,
+        DeviceObjectStorage.PowerSourceCurrent, sizeof(AwaInteger), 0);
+
+    AwaStaticClient_DefineResource(awaClient, LWM2M_DEVICE_OBJECT, LWM2M_DEVICE_OBJECT_BATTERY_LEVEL, "BatteryLevel", AwaResourceType_Integer, 0,
+        1, AwaResourceOperations_ReadOnly);
+    AwaStaticClient_SetResourceStorageWithPointer(awaClient, LWM2M_DEVICE_OBJECT, LWM2M_DEVICE_OBJECT_BATTERY_LEVEL, &DeviceObjectStorage.BatteryLevel,
+        sizeof(AwaInteger), 0 );
+
+    AwaStaticClient_DefineResource(awaClient, LWM2M_DEVICE_OBJECT, LWM2M_DEVICE_OBJECT_MEMORY_FREE, "MemoryFree", AwaResourceType_Integer, 0,
+        1, AwaResourceOperations_ReadOnly);
+    AwaStaticClient_SetResourceStorageWithPointer(awaClient, LWM2M_DEVICE_OBJECT, LWM2M_DEVICE_OBJECT_MEMORY_FREE, &DeviceObjectStorage.MemoryFree,
+        sizeof(AwaInteger), 0 );
+
+    AwaStaticClient_DefineResource(awaClient, LWM2M_DEVICE_OBJECT, LWM2M_DEVICE_OBJECT_ERROR_CODE, "ErrorCode", AwaResourceType_Integer, 0,
+        LWM2M_DEVICE_OBJECT_ERROR_CODE_COUNT, AwaResourceOperations_ReadOnly);
+    AwaStaticClient_SetResourceStorageWithPointer(awaClient, LWM2M_DEVICE_OBJECT, LWM2M_DEVICE_OBJECT_ERROR_CODE, DeviceObjectStorage.ErrorCode,
+        sizeof(AwaInteger), 0);
+
+    AwaStaticClient_DefineResource(awaClient, LWM2M_DEVICE_OBJECT, LWM2M_DEVICE_OBJECT_CURRENT_TIME, "CurrentTime", AwaResourceType_Time, 0,
+        1, AwaResourceOperations_ReadWrite);
+    AwaStaticClient_SetResourceStorageWithPointer(awaClient, LWM2M_DEVICE_OBJECT, LWM2M_DEVICE_OBJECT_CURRENT_TIME, &DeviceObjectStorage.CurrentTime,
+        sizeof(AwaTime), 0);
+
+    AwaStaticClient_DefineResource(awaClient, LWM2M_DEVICE_OBJECT, LWM2M_DEVICE_OBJECT_UTC_OFFSET, "UTCOffset", AwaResourceType_String, 0, 1,
+        AwaResourceOperations_ReadWrite);
+    AwaStaticClient_SetResourceStorageWithPointer(awaClient, LWM2M_DEVICE_OBJECT, LWM2M_DEVICE_OBJECT_UTC_OFFSET, DeviceObjectStorage.UTCOffset,
+        sizeof(DeviceObjectStorage.UTCOffset), 0);
+
+    AwaStaticClient_DefineResource(awaClient, LWM2M_DEVICE_OBJECT, LWM2M_DEVICE_OBJECT_TIME_ZONE, "Timezone", AwaResourceType_String, 0, 1,
+        AwaResourceOperations_ReadWrite);
+    AwaStaticClient_SetResourceStorageWithPointer(awaClient, LWM2M_DEVICE_OBJECT, LWM2M_DEVICE_OBJECT_TIME_ZONE, DeviceObjectStorage.Timezone,
+        sizeof(DeviceObjectStorage.Timezone), 0);
+
+    AwaStaticClient_DefineResource(awaClient, LWM2M_DEVICE_OBJECT, LWM2M_DEVICE_OBJECT_SUPPORTED_BINDING_AND_MODES, "SupportedBindingandModes",
+        AwaResourceType_String, 1, 1, AwaResourceOperations_ReadOnly);
+    AwaStaticClient_SetResourceStorageWithPointer(awaClient, LWM2M_DEVICE_OBJECT, LWM2M_DEVICE_OBJECT_SUPPORTED_BINDING_AND_MODES,
+        DeviceObjectStorage.SupportedBindingandModes, sizeof(DeviceObjectStorage.SupportedBindingandModes), 0);
+
+    AwaStaticClient_DefineResource(awaClient, LWM2M_DEVICE_OBJECT, LWM2M_DEVICE_OBJECT_DEVICE_TYPE, "DeviceType", AwaResourceType_String, 1, 1,
+        AwaResourceOperations_ReadOnly);
+    AwaStaticClient_SetResourceStorageWithPointer(awaClient, LWM2M_DEVICE_OBJECT, LWM2M_DEVICE_OBJECT_DEVICE_TYPE, DeviceObjectStorage.DeviceType,
+        sizeof(DeviceObjectStorage.DeviceType), 0);
+
+    AwaStaticClient_DefineResource(awaClient, LWM2M_DEVICE_OBJECT, LWM2M_DEVICE_OBJECT_HARDWARE_VERSION, "HardwareVersion", AwaResourceType_String, 0, 1,
+        AwaResourceOperations_ReadOnly);
+    AwaStaticClient_SetResourceStorageWithPointer(awaClient, LWM2M_DEVICE_OBJECT, LWM2M_DEVICE_OBJECT_HARDWARE_VERSION, DeviceObjectStorage.HardwareVersion,
+        sizeof(DeviceObjectStorage.HardwareVersion), 0);
+
+    AwaStaticClient_DefineResource(awaClient, LWM2M_DEVICE_OBJECT, LWM2M_DEVICE_OBJECT_SOFTWARE_VERSION, "SoftwareVersion", AwaResourceType_String, 0, 1,
+        AwaResourceOperations_ReadOnly);
+    AwaStaticClient_SetResourceStorageWithPointer(awaClient, LWM2M_DEVICE_OBJECT, LWM2M_DEVICE_OBJECT_SOFTWARE_VERSION, DeviceObjectStorage.SoftwareVersion,
+        sizeof(DeviceObjectStorage.SoftwareVersion), 0);
+
+    AwaStaticClient_DefineResource(awaClient, LWM2M_DEVICE_OBJECT, LWM2M_DEVICE_OBJECT_BATTERY_STATUS, "BatteryStatus", AwaResourceType_Integer, 0, 1,
+        AwaResourceOperations_ReadOnly);
+    AwaStaticClient_SetResourceStorageWithPointer(awaClient, LWM2M_DEVICE_OBJECT, LWM2M_DEVICE_OBJECT_BATTERY_STATUS, &DeviceObjectStorage.BatteryStatus ,
+        sizeof(AwaInteger), 0 );
+
+    AwaStaticClient_DefineResource(awaClient, LWM2M_DEVICE_OBJECT, LWM2M_DEVICE_OBJECT_MEMORY_TOTAL, "MemoryTotal", AwaResourceType_Integer, 0, 1,
+        AwaResourceOperations_ReadOnly);
+    AwaStaticClient_SetResourceStorageWithPointer(awaClient, LWM2M_DEVICE_OBJECT, LWM2M_DEVICE_OBJECT_MEMORY_TOTAL, &DeviceObjectStorage.MemoryTotal ,
+        sizeof(AwaInteger), 0 );
+
+    AwaStaticClient_DefineResource(awaClient, LWM2M_DEVICE_OBJECT, LWM2M_DEVICE_OBJECT_REBOOT, "Reboot", AwaResourceType_None, 0, 1,
+        AwaResourceOperations_Execute);
     AwaStaticClient_SetResourceOperationHandler(awaClient, LWM2M_DEVICE_OBJECT, LWM2M_DEVICE_OBJECT_REBOOT,           executeHandler);
+
+    AwaStaticClient_DefineResource(awaClient, LWM2M_DEVICE_OBJECT, LWM2M_DEVICE_OBJECT_FACTORY_RESET, "FactoryReset", AwaResourceType_None, 0, 1,
+        AwaResourceOperations_Execute);
     AwaStaticClient_SetResourceOperationHandler(awaClient, LWM2M_DEVICE_OBJECT, LWM2M_DEVICE_OBJECT_FACTORY_RESET,    executeHandler);
+
+    AwaStaticClient_DefineResource(awaClient, LWM2M_DEVICE_OBJECT, LWM2M_DEVICE_OBJECT_RESET_ERROR_CODE, "ResetErrorCode", AwaResourceType_None, 0, 1,
+        AwaResourceOperations_Execute);
     AwaStaticClient_SetResourceOperationHandler(awaClient, LWM2M_DEVICE_OBJECT, LWM2M_DEVICE_OBJECT_RESET_ERROR_CODE, executeHandler);
 
     AwaStaticClient_CreateObjectInstance(awaClient, LWM2M_DEVICE_OBJECT, 0);
