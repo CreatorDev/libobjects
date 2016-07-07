@@ -43,12 +43,12 @@
 /***************************************************************************************************
  * Typedefs
  **************************************************************************************************/
-
 typedef struct
 {
     AwaFloat Value;
     char Units[13];
     char ApplicationType[30];
+    SetPointCallback ValueChangeCallback;
 } IPSOSetPoint;
 
 /***************************************************************************************************
@@ -64,7 +64,7 @@ static IPSOSetPoint SetPointStorage = {
 /***************************************************************************************************
  * Implementation
  **************************************************************************************************/
-static AwaResult SetPointObject_Handler(AwaStaticClient *client, AwaOperation operation, AwaObjectID objectID, AwaObjectInstanceID objectInstanceID,
+AwaResult SetPointObject_Handler(AwaStaticClient *client, AwaOperation operation, AwaObjectID objectID, AwaObjectInstanceID objectInstanceID,
      AwaResourceID resourceID, AwaResourceInstanceID resourceInstanceID, void **dataPointer, size_t *dataSize, bool *changed)
 {
     AwaResult result = AwaResult_InternalError;
@@ -106,6 +106,9 @@ static AwaResult SetPointObject_Handler(AwaStaticClient *client, AwaOperation op
                 case IPSO_SET_POINT_VALUE:
                     SetPointStorage.Value = **((AwaFloat **)dataPointer);
                     *changed = true;
+                    if (SetPointStorage.ValueChangeCallback != NULL) {
+                        SetPointStorage.ValueChangeCallback(SetPointStorage.Value);
+                    }
                     break;
 
                 default:
@@ -122,9 +125,10 @@ static AwaResult SetPointObject_Handler(AwaStaticClient *client, AwaOperation op
     return result;
 }
 
-AwaError SetPointObject_DefineObjectsAndResources(AwaStaticClient *awaClient)
+AwaError SetPointObject_DefineObjectsAndResources(AwaStaticClient *awaClient, SetPointCallback valueChangeCallback)
 {
     AwaError error;
+    SetPointStorage.ValueChangeCallback = valueChangeCallback;
 
     error = AwaStaticClient_DefineObject(awaClient, IPSO_SET_POINT_OBJECT, "Set Point", 0, 1);
     if (error != AwaError_Success)
