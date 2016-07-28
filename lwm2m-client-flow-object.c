@@ -308,6 +308,7 @@ int DefineFlowObject(AwaStaticClient *awaClient)
 {
     AwaError error;
 
+    AwaStaticClient_DefineObject(awaClient, FLOWM2M_FLOW_OBJECT, "Flow", 1, FLOW_INSTANCES);
     error = AwaStaticClient_SetObjectOperationHandler(awaClient, FLOWM2M_FLOW_OBJECT, handler);
     if (error != AwaError_Success)
     {
@@ -315,6 +316,8 @@ int DefineFlowObject(AwaStaticClient *awaClient)
         return 1;
     }
 
+    AwaStaticClient_DefineResource(awaClient, FLOWM2M_FLOW_OBJECT, FLOWM2M_FLOW_OBJECT_DEVICEID, "DeviceID", AwaResourceType_Opaque, 1, 1,
+        AwaResourceOperations_ReadWrite);
     error = AwaStaticClient_SetResourceOperationHandler(awaClient, FLOWM2M_FLOW_OBJECT, FLOWM2M_FLOW_OBJECT_DEVICEID, handler);
     if (error != AwaError_Success)
     {
@@ -322,6 +325,8 @@ int DefineFlowObject(AwaStaticClient *awaClient)
         return 1;
     }
 
+    AwaStaticClient_DefineResource(awaClient, FLOWM2M_FLOW_OBJECT, FLOWM2M_FLOW_OBJECT_PARENTID, "ParentID", AwaResourceType_Opaque, 0, 1,
+        AwaResourceOperations_ReadWrite);
     error = AwaStaticClient_SetResourceOperationHandler(awaClient, FLOWM2M_FLOW_OBJECT, FLOWM2M_FLOW_OBJECT_PARENTID, handler);
     if (error != AwaError_Success)
     {
@@ -329,6 +334,8 @@ int DefineFlowObject(AwaStaticClient *awaClient)
         return 1;
     }
 
+    AwaStaticClient_DefineResource(awaClient, FLOWM2M_FLOW_OBJECT, FLOWM2M_FLOW_OBJECT_DEVICETYPE, "DeviceType", AwaResourceType_String, 1, 1,
+        AwaResourceOperations_ReadWrite);
     error = AwaStaticClient_SetResourceOperationHandler(awaClient, FLOWM2M_FLOW_OBJECT, FLOWM2M_FLOW_OBJECT_DEVICETYPE, handler);
     if (error != AwaError_Success)
     {
@@ -336,6 +343,8 @@ int DefineFlowObject(AwaStaticClient *awaClient)
         return 1;
     }
 
+    AwaStaticClient_DefineResource(awaClient, FLOWM2M_FLOW_OBJECT, FLOWM2M_FLOW_OBJECT_NAME, "Name", AwaResourceType_String, 0, 1,
+        AwaResourceOperations_ReadWrite);
     error = AwaStaticClient_SetResourceOperationHandler(awaClient, FLOWM2M_FLOW_OBJECT, FLOWM2M_FLOW_OBJECT_NAME, handler);
     if (error != AwaError_Success)
     {
@@ -343,6 +352,8 @@ int DefineFlowObject(AwaStaticClient *awaClient)
         return 1;
     }
 
+    AwaStaticClient_DefineResource(awaClient, FLOWM2M_FLOW_OBJECT, FLOWM2M_FLOW_OBJECT_DESCRIPTION, "Description", AwaResourceType_String, 0, 1,
+        AwaResourceOperations_ReadWrite);
     error = AwaStaticClient_SetResourceOperationHandler(awaClient, FLOWM2M_FLOW_OBJECT, FLOWM2M_FLOW_OBJECT_DESCRIPTION, handler);
     if (error != AwaError_Success)
     {
@@ -350,6 +361,8 @@ int DefineFlowObject(AwaStaticClient *awaClient)
         return 1;
     }
 
+    AwaStaticClient_DefineResource(awaClient, FLOWM2M_FLOW_OBJECT, FLOWM2M_FLOW_OBJECT_FCAP, "FCAP", AwaResourceType_String, 1, 1,
+        AwaResourceOperations_ReadWrite);
     error = AwaStaticClient_SetResourceOperationHandler(awaClient, FLOWM2M_FLOW_OBJECT, FLOWM2M_FLOW_OBJECT_FCAP, handler);
     if (error != AwaError_Success)
     {
@@ -357,6 +370,8 @@ int DefineFlowObject(AwaStaticClient *awaClient)
         return 1;
     }
 
+    AwaStaticClient_DefineResource(awaClient, FLOWM2M_FLOW_OBJECT, FLOWM2M_FLOW_OBJECT_LICENSEEID, "LicenseeID", AwaResourceType_Integer, 1, 1,
+        AwaResourceOperations_ReadWrite);
     error = AwaStaticClient_SetResourceOperationHandler(awaClient, FLOWM2M_FLOW_OBJECT, FLOWM2M_FLOW_OBJECT_LICENSEEID, handler);
     if (error != AwaError_Success)
     {
@@ -364,6 +379,8 @@ int DefineFlowObject(AwaStaticClient *awaClient)
         return 1;
     }
 
+    AwaStaticClient_DefineResource(awaClient, FLOWM2M_FLOW_OBJECT, FLOWM2M_FLOW_OBJECT_LICENSEECHALLENGE, "LicenseeChallenge", AwaResourceType_Opaque, 0, 1,
+        AwaResourceOperations_ReadWrite);
     error = AwaStaticClient_SetResourceOperationHandler(awaClient, FLOWM2M_FLOW_OBJECT, FLOWM2M_FLOW_OBJECT_LICENSEECHALLENGE, handler);
     if (error != AwaError_Success)
     {
@@ -371,6 +388,8 @@ int DefineFlowObject(AwaStaticClient *awaClient)
         return 1;
     }
 
+    AwaStaticClient_DefineResource(awaClient, FLOWM2M_FLOW_OBJECT, FLOWM2M_FLOW_OBJECT_HASHITERATIONS, "HashIterations", AwaResourceType_Integer, 0, 1,
+        AwaResourceOperations_ReadWrite);
     error = AwaStaticClient_SetResourceOperationHandler(awaClient, FLOWM2M_FLOW_OBJECT, FLOWM2M_FLOW_OBJECT_HASHITERATIONS, handler);
     if (error != AwaError_Success)
     {
@@ -378,6 +397,8 @@ int DefineFlowObject(AwaStaticClient *awaClient)
         return 1;
     }
 
+    AwaStaticClient_DefineResource(awaClient, FLOWM2M_FLOW_OBJECT, FLOWM2M_FLOW_OBJECT_LICENSEEHASH, "LicenseeHash", AwaResourceType_Opaque, 0, 1,
+        AwaResourceOperations_ReadWrite);
     error = AwaStaticClient_SetResourceOperationHandler(awaClient, FLOWM2M_FLOW_OBJECT, FLOWM2M_FLOW_OBJECT_LICENSEEHASH, handler);
     if (error != AwaError_Success)
     {
@@ -385,6 +406,8 @@ int DefineFlowObject(AwaStaticClient *awaClient)
         return 1;
     }
 
+    AwaStaticClient_DefineResource(awaClient, FLOWM2M_FLOW_OBJECT, FLOWM2M_FLOW_OBJECT_STATUS, "Status", AwaResourceType_Integer, 0, 1,
+        AwaResourceOperations_ReadWrite);
     error = AwaStaticClient_SetResourceOperationHandler(awaClient, FLOWM2M_FLOW_OBJECT, FLOWM2M_FLOW_OBJECT_STATUS, handler);
     if (error != AwaError_Success)
     {
