@@ -194,6 +194,7 @@ int DefineFlowAccessObject(AwaStaticClient *awaClient)
 {
     AwaError error;
 
+    AwaStaticClient_DefineObject(awaClient, FLOWM2M_FLOW_ACCESS_OBJECT, "FlowAccess", 0, FLOW_ACCESS_INSTANCES);
     error = AwaStaticClient_SetObjectOperationHandler(awaClient, FLOWM2M_FLOW_ACCESS_OBJECT, accessHandler);
     if (error != AwaError_Success)
     {
@@ -201,6 +202,9 @@ int DefineFlowAccessObject(AwaStaticClient *awaClient)
         return 1;
     }
 
+
+    AwaStaticClient_DefineResource(awaClient, FLOWM2M_FLOW_ACCESS_OBJECT, FLOWM2M_FLOW_ACCESS_OBJECT_URL, "URL", AwaResourceType_String, 0, 1,
+        AwaResourceOperations_ReadWrite);
     error = AwaStaticClient_SetResourceOperationHandler(awaClient, FLOWM2M_FLOW_ACCESS_OBJECT, FLOWM2M_FLOW_ACCESS_OBJECT_URL, accessHandler);
     if (error != AwaError_Success)
     {
@@ -208,6 +212,8 @@ int DefineFlowAccessObject(AwaStaticClient *awaClient)
         return 1;
     }
 
+    AwaStaticClient_DefineResource(awaClient, FLOWM2M_FLOW_ACCESS_OBJECT, FLOWM2M_FLOW_ACCESS_OBJECT_CUSTOMERKEY, "CustomerKey", AwaResourceType_String, 0, 1,
+        AwaResourceOperations_ReadWrite);
     error = AwaStaticClient_SetResourceOperationHandler(awaClient, FLOWM2M_FLOW_ACCESS_OBJECT, FLOWM2M_FLOW_ACCESS_OBJECT_CUSTOMERKEY, accessHandler);
     if (error != AwaError_Success)
     {
@@ -215,6 +221,8 @@ int DefineFlowAccessObject(AwaStaticClient *awaClient)
         return 1;
     }
 
+    AwaStaticClient_DefineResource(awaClient, FLOWM2M_FLOW_ACCESS_OBJECT, FLOWM2M_FLOW_ACCESS_OBJECT_CUSTOMERSECRET, "CustomerSecret", AwaResourceType_String,
+        0, 1, AwaResourceOperations_ReadWrite);
     error = AwaStaticClient_SetResourceOperationHandler(awaClient, FLOWM2M_FLOW_ACCESS_OBJECT, FLOWM2M_FLOW_ACCESS_OBJECT_CUSTOMERSECRET, accessHandler);
     if (error != AwaError_Success)
     {
@@ -222,6 +230,8 @@ int DefineFlowAccessObject(AwaStaticClient *awaClient)
         return 1;
     }
 
+    AwaStaticClient_DefineResource(awaClient, FLOWM2M_FLOW_ACCESS_OBJECT, FLOWM2M_FLOW_ACCESS_OBJECT_REMEMBERMETOKEN, "RememberMeToken", AwaResourceType_String,
+        0, 1, AwaResourceOperations_ReadWrite);
     error = AwaStaticClient_SetResourceOperationHandler(awaClient, FLOWM2M_FLOW_ACCESS_OBJECT, FLOWM2M_FLOW_ACCESS_OBJECT_REMEMBERMETOKEN, accessHandler);
     if (error != AwaError_Success)
     {
@@ -229,6 +239,8 @@ int DefineFlowAccessObject(AwaStaticClient *awaClient)
         return 1;
     }
 
+    AwaStaticClient_DefineResource(awaClient, FLOWM2M_FLOW_ACCESS_OBJECT, FLOWM2M_FLOW_ACCESS_OBJECT_REMEMBERMETOKENEXPIRY, "RememberMeTokenExpiry",
+        AwaResourceType_Time, 0, 1, AwaResourceOperations_ReadWrite);
     error = AwaStaticClient_SetResourceOperationHandler(awaClient, FLOWM2M_FLOW_ACCESS_OBJECT, FLOWM2M_FLOW_ACCESS_OBJECT_REMEMBERMETOKENEXPIRY, accessHandler);
     if (error != AwaError_Success)
     {
