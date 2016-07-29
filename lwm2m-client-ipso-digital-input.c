@@ -222,6 +222,7 @@ int DefineDigitalInputObject(AwaStaticClient *awaClient)
     AwaError error;
     int i;
 
+    AwaStaticClient_DefineObject(awaClient, IPSO_DIGITAL_INPUT_OBJECT, "DigitalInput", 0, DIGITAL_INPUTS);
     error = AwaStaticClient_SetObjectOperationHandler(awaClient, IPSO_DIGITAL_INPUT_OBJECT, digitalInputHandler);
     if (error != AwaError_Success)
     {
@@ -229,6 +230,8 @@ int DefineDigitalInputObject(AwaStaticClient *awaClient)
         return 1;
     }
 
+    AwaStaticClient_DefineResource(awaClient, IPSO_DIGITAL_INPUT_OBJECT, IPSO_DIGITAL_INPUT_STATE, "State", AwaResourceType_Boolean, 1, 1,
+        AwaResourceOperations_ReadOnly);
     error = AwaStaticClient_SetResourceOperationHandler(awaClient, IPSO_DIGITAL_INPUT_OBJECT, IPSO_DIGITAL_INPUT_STATE, digitalInputHandler);
     if (error != AwaError_Success)
     {
@@ -236,6 +239,8 @@ int DefineDigitalInputObject(AwaStaticClient *awaClient)
         return 1;
     }
 
+    AwaStaticClient_DefineResource(awaClient, IPSO_DIGITAL_INPUT_OBJECT, IPSO_DIGITAL_INPUT_COUNTER, "Counter", AwaResourceType_Integer, 0, 1,
+        AwaResourceOperations_ReadOnly);
     error = AwaStaticClient_SetResourceOperationHandler(awaClient, IPSO_DIGITAL_INPUT_OBJECT, IPSO_DIGITAL_INPUT_COUNTER, digitalInputHandler);
     if (error != AwaError_Success)
     {
@@ -243,6 +248,8 @@ int DefineDigitalInputObject(AwaStaticClient *awaClient)
         return 1;
     }
 
+    AwaStaticClient_DefineResource(awaClient, IPSO_DIGITAL_INPUT_OBJECT, IPSO_DIGITAL_INPUT_POLARITY, "Polarity", AwaResourceType_Boolean, 0, 1,
+        AwaResourceOperations_ReadWrite);
     error = AwaStaticClient_SetResourceOperationHandler(awaClient, IPSO_DIGITAL_INPUT_OBJECT, IPSO_DIGITAL_INPUT_POLARITY, digitalInputHandler);
     if (error != AwaError_Success)
     {
@@ -250,6 +257,8 @@ int DefineDigitalInputObject(AwaStaticClient *awaClient)
         return 1;
     }
 
+    AwaStaticClient_DefineResource(awaClient, IPSO_DIGITAL_INPUT_OBJECT, IPSO_DIGITAL_INPUT_DEBOUNCE_PERIOD, "DebouncePeriod", AwaResourceType_Time, 0, 1,
+        AwaResourceOperations_ReadWrite);
     error = AwaStaticClient_SetResourceOperationHandler(awaClient, IPSO_DIGITAL_INPUT_OBJECT, IPSO_DIGITAL_INPUT_DEBOUNCE_PERIOD, digitalInputHandler);
     if (error != AwaError_Success)
     {
@@ -257,6 +266,8 @@ int DefineDigitalInputObject(AwaStaticClient *awaClient)
         return 1;
     }
 
+    AwaStaticClient_DefineResource(awaClient, IPSO_DIGITAL_INPUT_OBJECT, IPSO_DIGITAL_INPUT_EDGE_SELECTION, "EdgeSelection", AwaResourceType_Integer, 0, 1,
+        AwaResourceOperations_ReadWrite);
     error = AwaStaticClient_SetResourceOperationHandler(awaClient, IPSO_DIGITAL_INPUT_OBJECT, IPSO_DIGITAL_INPUT_EDGE_SELECTION, digitalInputHandler);
     if (error != AwaError_Success)
     {
@@ -264,6 +275,8 @@ int DefineDigitalInputObject(AwaStaticClient *awaClient)
         return 1;
     }
 
+    AwaStaticClient_DefineResource(awaClient, IPSO_DIGITAL_INPUT_OBJECT, IPSO_APPLICATION_TYPE, "ApplicationType", AwaResourceType_String, 0, 1,
+        AwaResourceOperations_ReadOnly);
     error = AwaStaticClient_SetResourceOperationHandler(awaClient, IPSO_DIGITAL_INPUT_OBJECT, IPSO_APPLICATION_TYPE, digitalInputHandler);
     if (error != AwaError_Success)
     {
@@ -271,6 +284,8 @@ int DefineDigitalInputObject(AwaStaticClient *awaClient)
         return 1;
     }
 
+    AwaStaticClient_DefineResource(awaClient, IPSO_DIGITAL_INPUT_OBJECT, IPSO_SENSOR_TYPE, "SensorType", AwaResourceType_String, 0, 1,
+        AwaResourceOperations_ReadOnly);
     error = AwaStaticClient_SetResourceOperationHandler(awaClient, IPSO_DIGITAL_INPUT_OBJECT , IPSO_SENSOR_TYPE, digitalInputHandler);
     if (error != AwaError_Success)
     {
@@ -278,6 +293,8 @@ int DefineDigitalInputObject(AwaStaticClient *awaClient)
         return 1;
     }
 
+    AwaStaticClient_DefineResource(awaClient, IPSO_DIGITAL_INPUT_OBJECT, IPSO_DIGITAL_INPUT_COUNTER_RESET, "CounterReset", AwaResourceType_Opaque, 0, 1,
+        AwaResourceOperations_Execute);
     error = AwaStaticClient_SetResourceOperationHandler(awaClient, IPSO_DIGITAL_INPUT_OBJECT , IPSO_DIGITAL_INPUT_COUNTER_RESET, digitalInputHandler);
     if (error != AwaError_Success)
     {
