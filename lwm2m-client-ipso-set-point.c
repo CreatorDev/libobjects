@@ -137,7 +137,7 @@ AwaError SetPointObject_DefineObjectsAndResources(AwaStaticClient *awaClient, Se
         return error;
     }
 
-    error = AwaStaticClient_DefineResource(awaClient, IPSO_SET_POINT_OBJECT, IPSO_SET_POINT_VALUE, "Value", AwaResourceType_Float, 1, 1,
+    error = AwaStaticClient_DefineResource(awaClient, IPSO_SET_POINT_OBJECT, IPSO_SET_POINT_VALUE, "Value", AwaResourceType_Integer, 1, 1,
         AwaResourceOperations_ReadWrite);
     AwaStaticClient_SetResourceOperationHandler(awaClient, IPSO_SET_POINT_OBJECT, IPSO_SET_POINT_VALUE, SetPointObject_Handler);
     if (error != AwaError_Success)
