@@ -194,47 +194,54 @@ int DefineFlowAccessObject(AwaStaticClient *awaClient)
 {
     AwaError error;
 
-    error = AwaStaticClient_DefineObjectWithHandler(awaClient, "FlowAccess", FLOWM2M_FLOW_ACCESS_OBJECT, 0, FLOW_ACCESS_INSTANCES, accessHandler);
+    AwaStaticClient_DefineObject(awaClient, FLOWM2M_FLOW_ACCESS_OBJECT, "FlowAccess", 0, FLOW_ACCESS_INSTANCES);
+    error = AwaStaticClient_SetObjectOperationHandler(awaClient, FLOWM2M_FLOW_ACCESS_OBJECT, accessHandler);
     if (error != AwaError_Success)
     {
         printf("Failed to register flow access object\n");
         return 1;
     }
 
-    error = AwaStaticClient_DefineResourceWithHandler(awaClient, "URL", FLOWM2M_FLOW_ACCESS_OBJECT, FLOWM2M_FLOW_ACCESS_OBJECT_URL, AwaResourceType_String, 0, 1, AwaResourceOperations_ReadWrite,
-        accessHandler);
+
+    AwaStaticClient_DefineResource(awaClient, FLOWM2M_FLOW_ACCESS_OBJECT, FLOWM2M_FLOW_ACCESS_OBJECT_URL, "URL", AwaResourceType_String, 0, 1,
+        AwaResourceOperations_ReadWrite);
+    error = AwaStaticClient_SetResourceOperationHandler(awaClient, FLOWM2M_FLOW_ACCESS_OBJECT, FLOWM2M_FLOW_ACCESS_OBJECT_URL, accessHandler);
     if (error != AwaError_Success)
     {
         printf("Failed to define URL resource\n");
         return 1;
     }
 
-    error = AwaStaticClient_DefineResourceWithHandler(awaClient, "CustomerKey",  FLOWM2M_FLOW_ACCESS_OBJECT, FLOWM2M_FLOW_ACCESS_OBJECT_CUSTOMERKEY, AwaResourceType_String, 0, 1, AwaResourceOperations_ReadWrite,
-        accessHandler);
+    AwaStaticClient_DefineResource(awaClient, FLOWM2M_FLOW_ACCESS_OBJECT, FLOWM2M_FLOW_ACCESS_OBJECT_CUSTOMERKEY, "CustomerKey", AwaResourceType_String, 0, 1,
+        AwaResourceOperations_ReadWrite);
+    error = AwaStaticClient_SetResourceOperationHandler(awaClient, FLOWM2M_FLOW_ACCESS_OBJECT, FLOWM2M_FLOW_ACCESS_OBJECT_CUSTOMERKEY, accessHandler);
     if (error != AwaError_Success)
     {
         printf("Failed to define CustomerKey resource\n");
         return 1;
     }
 
-    error = AwaStaticClient_DefineResourceWithHandler(awaClient, "CustomerSecret", FLOWM2M_FLOW_ACCESS_OBJECT, FLOWM2M_FLOW_ACCESS_OBJECT_CUSTOMERSECRET, AwaResourceType_String, 0, 1, AwaResourceOperations_ReadWrite,
-        accessHandler);
+    AwaStaticClient_DefineResource(awaClient, FLOWM2M_FLOW_ACCESS_OBJECT, FLOWM2M_FLOW_ACCESS_OBJECT_CUSTOMERSECRET, "CustomerSecret", AwaResourceType_String,
+        0, 1, AwaResourceOperations_ReadWrite);
+    error = AwaStaticClient_SetResourceOperationHandler(awaClient, FLOWM2M_FLOW_ACCESS_OBJECT, FLOWM2M_FLOW_ACCESS_OBJECT_CUSTOMERSECRET, accessHandler);
     if (error != AwaError_Success)
     {
         printf("Failed to define CustomerSecret resource\n");
         return 1;
     }
 
-    error = AwaStaticClient_DefineResourceWithHandler(awaClient, "RememberMeToken", FLOWM2M_FLOW_ACCESS_OBJECT, FLOWM2M_FLOW_ACCESS_OBJECT_REMEMBERMETOKEN, AwaResourceType_String, 0, 1, AwaResourceOperations_ReadWrite,
-        accessHandler);
+    AwaStaticClient_DefineResource(awaClient, FLOWM2M_FLOW_ACCESS_OBJECT, FLOWM2M_FLOW_ACCESS_OBJECT_REMEMBERMETOKEN, "RememberMeToken", AwaResourceType_String,
+        0, 1, AwaResourceOperations_ReadWrite);
+    error = AwaStaticClient_SetResourceOperationHandler(awaClient, FLOWM2M_FLOW_ACCESS_OBJECT, FLOWM2M_FLOW_ACCESS_OBJECT_REMEMBERMETOKEN, accessHandler);
     if (error != AwaError_Success)
     {
         printf("Failed to define RememberMeToken resource\n");
         return 1;
     }
 
-    error = AwaStaticClient_DefineResourceWithHandler(awaClient, "RememberMeTokenExpiry", FLOWM2M_FLOW_ACCESS_OBJECT, FLOWM2M_FLOW_ACCESS_OBJECT_REMEMBERMETOKENEXPIRY, AwaResourceType_Time, 0, 1, AwaResourceOperations_ReadWrite,
-        accessHandler);
+    AwaStaticClient_DefineResource(awaClient, FLOWM2M_FLOW_ACCESS_OBJECT, FLOWM2M_FLOW_ACCESS_OBJECT_REMEMBERMETOKENEXPIRY, "RememberMeTokenExpiry",
+        AwaResourceType_Time, 0, 1, AwaResourceOperations_ReadWrite);
+    error = AwaStaticClient_SetResourceOperationHandler(awaClient, FLOWM2M_FLOW_ACCESS_OBJECT, FLOWM2M_FLOW_ACCESS_OBJECT_REMEMBERMETOKENEXPIRY, accessHandler);
     if (error != AwaError_Success)
     {
         printf("Failed to define RememberMeTokenExpiry resource\n");
