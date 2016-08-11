@@ -153,7 +153,7 @@ AwaError PresenceObject_DefineObjectsAndResources(AwaStaticClient *awaClient, Aw
     }
 
     error = AwaStaticClient_DefineResource(awaClient, IPSO_PRESENCE_OBJECT, IPSO_PRESENCE_DIGITAL_INPUT_COUNTER_RESET, "Digital Input Counter Reset",
-        AwaResourceType_Opaque, 0, 1, AwaResourceOperations_Execute);
+        AwaResourceType_None, 0, 1, AwaResourceOperations_Execute);
     AwaStaticClient_SetResourceOperationHandler(awaClient, IPSO_PRESENCE_OBJECT, IPSO_PRESENCE_DIGITAL_INPUT_COUNTER_RESET, PresenceObject_Handler);
     if (error != AwaError_Success)
     {
@@ -182,6 +182,18 @@ AwaError PresenceObject_DefineObjectsAndResources(AwaStaticClient *awaClient, Aw
     }
 
     AwaStaticClient_CreateObjectInstance(awaClient, IPSO_PRESENCE_OBJECT, 0);
+    error = AwaStaticClient_CreateResource(awaClient, IPSO_PRESENCE_OBJECT, 0, IPSO_PRESENCE_DIGITAL_INPUT_COUNTER_RESET);
+    if (error != AwaError_Success)
+    {
+        printf("Failed to create resource 'Digital Input Counter Reset'\n");
+        return error;
+    }
+    error = AwaStaticClient_CreateResource(awaClient, IPSO_PRESENCE_OBJECT, 0, IPSO_PRESENCE_DIGITAL_INPUT_COUNTER);
+    if (error != AwaError_Success)
+    {
+        printf("Failed to create resource 'Digital Input Counter'\n");
+        return error;
+    }
     return AwaError_Success;
 }
 
