@@ -1,3 +1,4 @@
 libobjects_src = lwm2m-client-flow-object.c lwm2m-client-flow-access-object.c lwm2m-client-device-object.c \
                  lwm2m-client-ipso-digital-input.c lwm2m-client-ipso-light-control.c \
-                 lwm2m-client-ipso-presence.c lwm2m-client-ipso-temperature.c lwm2m-client-ipso-set-point.c
+                 lwm2m-client-ipso-presence.c lwm2m-client-ipso-temperature.c lwm2m-client-ipso-set-point.c \
+                 lwm2m-client-ipso-distance.c
