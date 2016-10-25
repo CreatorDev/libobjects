@@ -116,7 +116,7 @@ AwaError PowerObject_DefineObjectsAndResources(AwaStaticClient *awaClient, AwaFl
 {
     PowerStorage.MaxRangeValue = maxRange;
     PowerStorage.MinRangeValue = minRange;
-    strncpy(&PowerStorage.ApplicatioType[0], applicatioType, APPLICATION_TYPE_MAX_LEN);
+    strncpy(&PowerStorage.ApplicationType[0], applicatioType, APPLICATION_TYPE_MAX_LEN);
     AwaError error;
 
     error = AwaStaticClient_DefineObject(awaClient, IPSO_POWER_OBJECT, "Power", 0, 1);
@@ -198,7 +198,7 @@ AwaError PowerObject_DefineObjectsAndResources(AwaStaticClient *awaClient, AwaFl
 
     error = AwaStaticClient_DefineResource(awaClient, IPSO_POWER_OBJECT, IPSO_POWER_APPLICATION_TYPE, "Application type",
         AwaResourceType_String, 0, 1, AwaResourceOperations_ReadOnly);
-    AwaStaticClient_SetResourceStorageWithPointer(awaClient, IPSO_POWER_OBJECT, IPSO_POWER_APPLICATION_TYPE, &PowerStorage.ApplicatioType,
+    AwaStaticClient_SetResourceStorageWithPointer(awaClient, IPSO_POWER_OBJECT, IPSO_POWER_APPLICATION_TYPE, &PowerStorage.ApplicationType,
         APPLICATION_TYPE_MAX_LEN, 0);
     if (error != AwaError_Success)
     {
