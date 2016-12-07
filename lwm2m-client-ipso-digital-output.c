@@ -68,6 +68,7 @@ AwaResult DigitalOutput_Handler(AwaStaticClient *client, AwaOperation operation,
   AwaObjectInstanceID objectInstanceID, AwaResourceID resourceID, AwaResourceInstanceID resourceInstanceID,
   void **dataPointer, size_t *dataSize, bool *changed)
 {
+    printf("UPDATE: objectID=%d, AwaObjectInstanceID=%d, resourceID=%d, resourceInstanceID=%d\n", objectID, objectInstanceID, resourceID, resourceInstanceID);
    AwaResult result = AwaResult_InternalError;
    if (objectID != IPSO_DIGITAL_OUTPUT_OBJECT)
    {
@@ -150,7 +151,7 @@ AwaError DigitalOutput_DefineObject(AwaStaticClient *awaClient, DigitalOutputCal
    AwaError error;
    DigitalOutputStorage.ValueChangeCallback = callback;
 
-   error = AwaStaticClient_DefineObject(awaClient, IPSO_DIGITAL_OUTPUT_OBJECT, "Digital Output", 0, 1);
+   error = AwaStaticClient_DefineObject(awaClient, IPSO_DIGITAL_OUTPUT_OBJECT, "Digital Output", 2, 2);
    if (error != AwaError_Success)
    {
        printf("Failed to register Digital Output IPSO object\n");
@@ -158,7 +159,7 @@ AwaError DigitalOutput_DefineObject(AwaStaticClient *awaClient, DigitalOutputCal
    }
 
    error = AwaStaticClient_DefineResource(awaClient, IPSO_DIGITAL_OUTPUT_OBJECT, IPSO_DIGITAL_OUTPUT_STATE, "State",
-      AwaResourceType_Boolean, 2, 2, AwaResourceOperations_ReadWrite);
+      AwaResourceType_Boolean, 1, 1, AwaResourceOperations_ReadWrite);
    AwaStaticClient_SetResourceOperationHandler(awaClient, IPSO_DIGITAL_OUTPUT_OBJECT, IPSO_DIGITAL_OUTPUT_STATE,
      DigitalOutput_Handler);
    if (error != AwaError_Success)
@@ -168,9 +169,9 @@ AwaError DigitalOutput_DefineObject(AwaStaticClient *awaClient, DigitalOutputCal
    }
 
    error = AwaStaticClient_DefineResource(awaClient, IPSO_DIGITAL_OUTPUT_OBJECT, IPSO_DIGITAL_OUTPUT_POLARITY,
-     "Polarity", AwaResourceType_String, 2, 2, AwaResourceOperations_ReadWrite);
-   AwaStaticClient_SetResourceStorageWithPointer(awaClient, IPSO_DIGITAL_OUTPUT_OBJECT, IPSO_DIGITAL_OUTPUT_POLARITY,
-     DigitalOutputStorage.Polarity, sizeof(AwaBoolean), sizeof(AwaBoolean));
+     "Polarity", AwaResourceType_String, 1, 1, AwaResourceOperations_ReadWrite);
+   AwaStaticClient_SetResourceOperationHandler(awaClient, IPSO_DIGITAL_OUTPUT_OBJECT, IPSO_DIGITAL_OUTPUT_POLARITY,
+      DigitalOutput_Handler);
    if (error != AwaError_Success)
    {
        printf("Failed to define 'Polarity' resource\n");
